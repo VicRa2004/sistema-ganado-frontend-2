@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { NavLink } from "./NavLink";
+import { useTheme } from "@nextui-org/use-theme";
 
 export function Navbar() {
-   const [darkMode, setDarkMode] = useState(false);
    const [menuOpen, setMenuOpen] = useState(false);
 
+   const { theme, setTheme } = useTheme();
+
    const toggleDarkMode = () => {
-      setDarkMode(!darkMode);
-      document.documentElement.classList.toggle("dark", !darkMode);
+      setTheme(theme === "dark" ? "light" : "dark");
    };
 
    return (
@@ -33,9 +34,9 @@ export function Navbar() {
                {/* Dark Mode Toggle */}
                <button
                   onClick={toggleDarkMode}
-                  className="text-gray-800 dark:text-gray-200 p-2 rounded-md hover:bg-primary-800 transition-colors"
+                  className="text-white p-2 rounded-md hover:bg-primary-800 transition-colors"
                >
-                  {darkMode ? <Sun size={24} /> : <Moon size={24} />}
+                  {theme == "dark" ? <Sun size={24} /> : <Moon size={24} />}
                </button>
 
                {/* Mobile Menu Button */}
