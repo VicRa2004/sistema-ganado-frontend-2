@@ -29,7 +29,6 @@ export const Login = () => {
    const { loginUser, loading } = useLogin();
 
    const onSubmit = async ({ email, password }: FormValues) => {
-      console.log("helllo sll");
       await loginUser({ email, password });
    };
 

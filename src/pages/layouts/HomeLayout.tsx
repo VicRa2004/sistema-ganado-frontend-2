@@ -4,11 +4,11 @@ import { Toaster } from "sonner";
 
 export const HomeLayout = () => {
    return (
-      <div className="min-h-screen">
+      <div className="min-h-screen flex flex-col">
          <Navbar />
-         <>
-            <Outlet />
-         </>
+
+         <Outlet />
+
          <Toaster />
       </div>
    );

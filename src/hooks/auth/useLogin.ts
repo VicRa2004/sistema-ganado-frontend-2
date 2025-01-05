@@ -25,8 +25,13 @@ export const useLogin = () => {
 
          navigate("/app");
       } catch (error) {
-         const { message } = handleError(error);
-         toast.error(message, { className: "bg-danger text-white" });
+         const { message, type } = handleError(error);
+
+         if (type === "VALIDATE") {
+            navigate("/send-email/" + data.email);
+         } else {
+            toast.error(message, { className: "bg-danger text-white" });
+         }
       } finally {
          setLoading(false);
       }
