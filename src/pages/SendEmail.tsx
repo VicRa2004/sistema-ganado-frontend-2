@@ -15,7 +15,7 @@ export const SendEmail = () => {
 
    useEffect(() => {
       sendEmail();
-   }, []);
+   });
 
    return (
       <main className="flex-grow flex flex-col items-center justify-center p-10">

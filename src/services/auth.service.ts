@@ -22,6 +22,16 @@ const sendEmail = async (email: string) => {
    return await api.post("/send-email", { email });
 };
 
+const verifyEmail = async (token: string) => {
+   return await api.post(`/verify-email/${token}`);
+};
+
 const isLogged = () => {};
 
-export const authService = { login, register, isLogged, sendEmail };
+export const authService = {
+   login,
+   register,
+   isLogged,
+   sendEmail,
+   verifyEmail,
+};

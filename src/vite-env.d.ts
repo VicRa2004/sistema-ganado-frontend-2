@@ -33,3 +33,9 @@ export type ErrorApiType =
    | "SESION"
    | "DATABASE"
    | "DATA_FORM";
+
+export interface AxiosErrorType {
+   status: number;
+   message: string;
+   error: ErrorApiType;
+}
