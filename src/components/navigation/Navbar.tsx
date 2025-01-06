@@ -1,20 +1,35 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { NavLink } from "./NavLink";
-import { useTheme } from "@nextui-org/use-theme";
 import { useAuth } from "../../hooks/useAuth";
 import { ProfileOptions } from "./ProfileOptions";
+import { Button } from "@nextui-org/react";
+import { AppOptions } from "./AppOptions";
+
+const links = [
+   {
+      name: "App",
+      route: "/app",
+   },
+   {
+      name: "Sobre Nosotros",
+      route: "/about",
+   },
+   {
+      name: "Ayuda",
+      route: "/help",
+   },
+   {
+      name: "Noticias",
+      route: "/news",
+   },
+];
 
 export function Navbar() {
    const [menuOpen, setMenuOpen] = useState(false);
    const { isLogged } = useAuth();
-   const { theme, setTheme } = useTheme();
-
-   const toggleDarkMode = () => {
-      setTheme(theme === "dark" ? "light" : "dark");
-   };
 
    return (
       <nav className="bg-primary shadow-md sticky top-0 z-50">
@@ -22,41 +37,40 @@ export function Navbar() {
             <div className="flex justify-between items-center h-16">
                {/* Logo */}
                <div className="text-2xl font-extrabold text-white tracking-wide">
-                  <Link to="/">Brand</Link>
+                  <Link to="/">G.P</Link>
                </div>
 
                {/* Desktop Menu */}
                <div className="hidden md:flex space-x-6">
-                  <NavLink to="/">Inicio</NavLink>
-                  <NavLink to="/about">Sobre nosotros</NavLink>
-                  <NavLink to="/help">Ayuda</NavLink>
-                  {isLogged ? (
-                     <NavLink to="/app">App</NavLink>
-                  ) : (
-                     <NavLink to="/login">Iniciar sesión</NavLink>
-                  )}
+                  {links.map((link, index) => {
+                     return (
+                        <NavLink key={index} to={link.route}>
+                           {link.name}
+                        </NavLink>
+                     );
+                  })}
                </div>
 
                <div className="flex gap-2">
-                  {/* Dark Mode Toggle */}
+                  {isLogged ? (
+                     <>
+                        <AppOptions />
+                        <ProfileOptions />
+                     </>
+                  ) : (
+                     <Button variant="faded">
+                        <Link to="/login">Login</Link>
+                     </Button>
+                  )}
+
+                  {/* Mobile Menu Button */}
                   <button
-                     onClick={toggleDarkMode}
-                     className="text-white p-2 rounded-md hover:bg-primary-800 transition-colors"
+                     onClick={() => setMenuOpen(!menuOpen)}
+                     className="md:hidden text-primary-50 dark:text-gray-200 p-2 rounded-md hover:bg-primary-800 transition-colors"
                   >
-                     {theme == "dark" ? <Sun size={24} /> : <Moon size={24} />}
+                     {menuOpen ? <X size={24} /> : <Menu size={24} />}
                   </button>
-
-                  {/* Profile Options */}
-                  {isLogged ? <ProfileOptions /> : null}
                </div>
-
-               {/* Mobile Menu Button */}
-               <button
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  className="md:hidden text-primary-50 dark:text-gray-200 p-2 rounded-md hover:bg-primary-800 transition-colors"
-               >
-                  {menuOpen ? <X size={24} /> : <Menu size={24} />}
-               </button>
             </div>
          </div>
 
@@ -69,34 +83,18 @@ export function Navbar() {
             }}
             className="md:hidden overflow-hidden bg-primary shadow-md"
          >
-            <Link
-               to="/"
-               className="block px-4 py-3 text-lg font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-               onClick={() => setMenuOpen(false)}
-            >
-               Home
-            </Link>
-            <Link
-               to="/about"
-               className="block px-4 py-3 text-lg font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-               onClick={() => setMenuOpen(false)}
-            >
-               About
-            </Link>
-            <Link
-               to="/help"
-               className="block px-4 py-3 text-lg font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-               onClick={() => setMenuOpen(false)}
-            >
-               Help
-            </Link>
-            <Link
-               to="/login"
-               className="block px-4 py-3 text-lg font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-               onClick={() => setMenuOpen(false)}
-            >
-               Login
-            </Link>
+            {links.map((link) => {
+               return (
+                  <Link
+                     key={link.route}
+                     to={link.route}
+                     className="block px-4 py-3 text-lg font-medium text-white hover:text-gray-300 hover:bg-primary-900 transition-colors"
+                     onClick={() => setMenuOpen(false)}
+                  >
+                     {link.name}
+                  </Link>
+               );
+            })}
          </motion.div>
       </nav>
    );
