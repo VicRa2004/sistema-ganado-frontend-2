@@ -4,10 +4,12 @@ import { Sun, Moon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { NavLink } from "./NavLink";
 import { useTheme } from "@nextui-org/use-theme";
+import { useAuth } from "../../hooks/useAuth";
+import { ProfileOptions } from "./ProfileOptions";
 
 export function Navbar() {
    const [menuOpen, setMenuOpen] = useState(false);
-
+   const { isLogged } = useAuth();
    const { theme, setTheme } = useTheme();
 
    const toggleDarkMode = () => {
@@ -28,16 +30,25 @@ export function Navbar() {
                   <NavLink to="/">Inicio</NavLink>
                   <NavLink to="/about">Sobre nosotros</NavLink>
                   <NavLink to="/help">Ayuda</NavLink>
-                  <NavLink to="/login">Iniciar Sesion</NavLink>
+                  {isLogged ? (
+                     <NavLink to="/app">App</NavLink>
+                  ) : (
+                     <NavLink to="/login">Iniciar sesión</NavLink>
+                  )}
                </div>
 
-               {/* Dark Mode Toggle */}
-               <button
-                  onClick={toggleDarkMode}
-                  className="text-white p-2 rounded-md hover:bg-primary-800 transition-colors"
-               >
-                  {theme == "dark" ? <Sun size={24} /> : <Moon size={24} />}
-               </button>
+               <div className="flex gap-2">
+                  {/* Dark Mode Toggle */}
+                  <button
+                     onClick={toggleDarkMode}
+                     className="text-white p-2 rounded-md hover:bg-primary-800 transition-colors"
+                  >
+                     {theme == "dark" ? <Sun size={24} /> : <Moon size={24} />}
+                  </button>
+
+                  {/* Profile Options */}
+                  {isLogged ? <ProfileOptions /> : null}
+               </div>
 
                {/* Mobile Menu Button */}
                <button

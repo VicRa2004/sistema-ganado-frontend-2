@@ -8,6 +8,8 @@ import { SendEmail } from "./pages/SendEmail";
 import { ConfirmEmail } from "./pages/ConfirmEmail";
 
 import { HomeLayout } from "./pages/layouts/HomeLayout";
+import { AppMain } from "./pages/app/AppMain";
+import AppLayout from "./pages/layouts/AppLayout";
 
 export const App = () => {
    const navigate = useNavigate();
@@ -21,6 +23,9 @@ export const App = () => {
                <Route path="/register" element={<Register />}></Route>
                <Route path="/send-email/:email" element={<SendEmail />}></Route>
                <Route path="/verify-email/:token" element={<ConfirmEmail />} />
+               <Route path="/app" element={<AppLayout />}>
+                  <Route index element={<AppMain />}></Route>
+               </Route>
                <Route path="*" element={<Error404 />}></Route>
             </Route>
          </Routes>

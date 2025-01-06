@@ -14,7 +14,7 @@ export function ProfileOptions() {
    return (
       <Dropdown>
          <DropdownTrigger>
-            <Button color="primary" variant="shadow">
+            <Button color="primary" variant="faded">
                Opciones
             </Button>
          </DropdownTrigger>
