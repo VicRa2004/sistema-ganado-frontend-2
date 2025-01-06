@@ -1,14 +1,22 @@
 import { useGround } from "../../hooks/useGround";
+import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
+import { useEffect } from "react";
 
 export const Grounds = () => {
    const { getAllGrounds } = useGround();
 
-   const { isPending, data } = getAllGrounds;
+   const { isPending, isError, error, data } = getAllGrounds;
+
+   useEffect(() => {
+      if (error) {
+         console.log(error);
+      }
+   }, [error]);
 
    return (
       <div>
-         {isPending ? (
-            "cargando"
+         {isPending && isError ? (
+            <SkeletonGrid />
          ) : (
             <div>
                {data?.data.map((ground, index) => {
