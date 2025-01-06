@@ -11,24 +11,36 @@ import { HomeLayout } from "./pages/layouts/HomeLayout";
 import { AppMain } from "./pages/app/AppMain";
 import AppLayout from "./pages/layouts/AppLayout";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 export const App = () => {
    const navigate = useNavigate();
 
    return (
-      <NextUIProvider navigate={navigate} useHref={useHref}>
-         <Routes>
-            <Route path="/" element={<HomeLayout />}>
-               <Route index element={<Home />}></Route>
-               <Route path="/login" element={<Login />}></Route>
-               <Route path="/register" element={<Register />}></Route>
-               <Route path="/send-email/:email" element={<SendEmail />}></Route>
-               <Route path="/verify-email/:token" element={<ConfirmEmail />} />
-               <Route path="/app" element={<AppLayout />}>
-                  <Route index element={<AppMain />}></Route>
+      <QueryClientProvider client={queryClient}>
+         <NextUIProvider navigate={navigate} useHref={useHref}>
+            <Routes>
+               <Route path="/" element={<HomeLayout />}>
+                  <Route index element={<Home />}></Route>
+                  <Route path="/login" element={<Login />}></Route>
+                  <Route path="/register" element={<Register />}></Route>
+                  <Route
+                     path="/send-email/:email"
+                     element={<SendEmail />}
+                  ></Route>
+                  <Route
+                     path="/verify-email/:token"
+                     element={<ConfirmEmail />}
+                  />
+                  <Route path="/app" element={<AppLayout />}>
+                     <Route index element={<AppMain />}></Route>
+                  </Route>
+                  <Route path="*" element={<Error404 />}></Route>
                </Route>
-               <Route path="*" element={<Error404 />}></Route>
-            </Route>
-         </Routes>
-      </NextUIProvider>
+            </Routes>
+         </NextUIProvider>
+      </QueryClientProvider>
    );
 };
