@@ -11,7 +11,7 @@ const options = [
    {
       title: "Terrenos",
       description: "Gestión de terrenos de tu rancho",
-      path: "terrenos",
+      path: "app/grounds",
       srcImage:
          "https://www.icasas.mx/noticias/wp-content/uploads/2018/01/Vender-terreno.jpeg",
    },

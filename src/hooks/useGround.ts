@@ -1,6 +1,7 @@
 import { useAuth } from "./useAuth";
 import { GroundService } from "../services/grounds.service";
 import { useQuery } from "@tanstack/react-query";
+import { ResponseGroundAllType } from "../vite-env";
 
 export const useGround = () => {
    const { getToken } = useAuth();
@@ -9,14 +10,13 @@ export const useGround = () => {
    // Clase para pasar el token al servicio
    const groundService = new GroundService(token);
 
-   const getAll = async () => {
-      return await groundService.getGrouns();
-   };
-
-   const { data, isLoading, error } = useQuery({
-      queryKey: [""],
-      queryFn: getAll,
+   const getAllGrounds = useQuery<ResponseGroundAllType>({
+      queryKey: ["grounds"],
+      queryFn: async () => {
+         const res = await groundService.getGrouns();
+         return res;
+      },
    });
 
-   return { data, isLoading, error };
+   return { getAllGrounds };
 };

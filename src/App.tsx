@@ -10,6 +10,7 @@ import { ConfirmEmail } from "./pages/ConfirmEmail";
 import { HomeLayout } from "./pages/layouts/HomeLayout";
 import { AppMain } from "./pages/app/AppMain";
 import AppLayout from "./pages/layouts/AppLayout";
+import { Grounds } from "./pages/app/Grounds";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -36,6 +37,7 @@ export const App = () => {
                   />
                   <Route path="/app" element={<AppLayout />}>
                      <Route index element={<AppMain />}></Route>
+                     <Route path="grounds" element={<Grounds />}></Route>
                   </Route>
                   <Route path="*" element={<Error404 />}></Route>
                </Route>

@@ -1,5 +1,4 @@
 import { api } from "../lib/axios";
-import {} from "../vite-env";
 
 export class GroundService {
    private token: string | null;
@@ -15,6 +14,6 @@ export class GroundService {
          },
       });
 
-      return resp.data.data;
+      return resp.data;
    }
 }

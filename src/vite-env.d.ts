@@ -39,3 +39,18 @@ export interface AxiosErrorType {
    message: string;
    error: ErrorApiType;
 }
+
+export interface GroundType {
+   id_ground: number;
+   name: string;
+   image: string;
+   id_user: number;
+   createdAt: string;
+   updatedAt: string;
+}
+
+export interface ResponseGroundAllType {
+   data: GroundType[];
+   maxPages: number;
+   status: number;
+}
