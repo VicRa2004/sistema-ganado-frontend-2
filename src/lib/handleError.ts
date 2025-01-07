@@ -1,6 +1,13 @@
 import { AxiosError } from "axios";
 
-export const handleError = (error: unknown) => {
+type TypeError = "SESION" | "VALIDATE" | "DATAFORM";
+
+interface ErrorType {
+   message: string;
+   type?: TypeError;
+}
+
+export const handleError = (error: unknown): ErrorType => {
    if (error instanceof AxiosError) {
       if (error.response) {
          const err = error as AxiosError<{
@@ -10,9 +17,26 @@ export const handleError = (error: unknown) => {
             };
          }>;
 
+         if (
+            err.response?.data.error.messages[0] == "Incorrect password o email"
+         ) {
+            return {
+               message: "La contraseña o el correo son incorrectos",
+               type: "DATAFORM",
+            };
+         }
+
+         if (err.response?.data.error.type == "SESION") {
+            return {
+               message: "La sesion expiro o ya no es valida",
+               type: "SESION",
+            };
+         }
+
+         // Si la respuesta es un error de correo
          if (err.response?.data.error.type == "VALIDATE") {
             return {
-               message: "La respuesta salio mal",
+               message: "El correo no esta validado",
                type: "VALIDATE",
             };
          }

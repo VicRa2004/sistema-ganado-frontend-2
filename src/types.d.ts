@@ -44,6 +44,10 @@ export interface GroundType {
    id_ground: number;
    name: string;
    image: string;
+   notes: string;
+   length: number;
+   width: number;
+   address: string;
    id_user: number;
    createdAt: string;
    updatedAt: string;

@@ -1,10 +1,11 @@
 import { useAuthStore } from "../store/auth_store";
 import { authService } from "../services/auth.service";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useError } from "./useError";
 
 export const useAuth = () => {
    const navigate = useNavigate();
+   const { handleError } = useError();
    const setUser = useAuthStore((state) => state.setUser);
    const getToken = useAuthStore((state) => state.getToken);
 
@@ -13,18 +14,16 @@ export const useAuth = () => {
          const resp = await authService.sendEmail(email);
 
          console.log(resp);
-      } catch {
-         toast.error("Error al enviar el correo, token invalido o expirado");
+      } catch (error) {
+         handleError(error);
       }
    };
 
    const confirmEmailUser = async (token: string) => {
       try {
          await authService.verifyEmail(token);
-      } catch {
-         toast.error("Error al confirmar el correo", {
-            className: "bg-danger text-white text-lg",
-         });
+      } catch (error) {
+         handleError(error);
       } finally {
          navigate("/login");
       }

@@ -2,11 +2,12 @@ import { useState } from "react";
 import { authService } from "../../services/auth.service";
 import type { RegisterType } from "../../vite-env";
 import { toast } from "sonner";
-import { handleError } from "../../lib/handleError";
 import { useNavigate } from "react-router-dom";
+import { useError } from "../useError";
 
 export const useRegister = () => {
    const navigate = useNavigate();
+   const { handleError } = useError();
 
    const [loading, setLoading] = useState(false);
 
@@ -22,10 +23,9 @@ export const useRegister = () => {
 
          toast.success("Se creo correctamente la cuenta");
 
-         navigate("/app");
+         navigate("/login");
       } catch (error) {
-         const { message } = handleError(error);
-         toast.error(message, { className: "bg-danger text-white" });
+         handleError(error);
       } finally {
          setLoading(false);
       }

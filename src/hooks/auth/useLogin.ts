@@ -3,11 +3,12 @@ import { authService } from "../../services/auth.service";
 import { useAuthStore } from "../../store/auth_store";
 import type { LoginType } from "../../vite-env";
 import { toast } from "sonner";
-import { handleError } from "../../lib/handleError";
 import { useNavigate } from "react-router-dom";
+import { useError } from "../useError";
 
 export const useLogin = () => {
    const navigate = useNavigate();
+   const { handleError } = useError();
    const setUser = useAuthStore((state) => state.setUser);
 
    const [loading, setLoading] = useState(false);
@@ -25,13 +26,9 @@ export const useLogin = () => {
 
          navigate("/app");
       } catch (error) {
-         const { message, type } = handleError(error);
-
-         if (type === "VALIDATE") {
-            navigate("/send-email/" + data.email);
-         } else {
-            toast.error(message, { className: "bg-danger text-white" });
-         }
+         handleError(error, {
+            email: data.email,
+         });
       } finally {
          setLoading(false);
       }
