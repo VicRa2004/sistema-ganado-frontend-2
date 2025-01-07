@@ -1,11 +1,4 @@
-import {
-   Card,
-   CardFooter,
-   CardBody,
-   Link,
-   Divider,
-   Image,
-} from "@nextui-org/react";
+import { SimpleCard } from "../../components/ui/SimpleCard";
 
 const options = [
    {
@@ -47,26 +40,13 @@ export const AppMain = () => {
 
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {options.map((option) => (
-               <Card key={option.title}>
-                  <CardBody className="flex flex-col gap-3">
-                     <h2 className="text-xl font-semibold text-primary">
-                        {option.title}
-                     </h2>
-                     <p>{option.description}</p>
-                     <Image height={200} src={option.srcImage} />
-                  </CardBody>
-                  <Divider />
-                  <CardFooter>
-                     <Link
-                        isBlock
-                        showAnchorIcon
-                        href={option.path}
-                        color="primary"
-                     >
-                        Ir a {option.title}
-                     </Link>
-                  </CardFooter>
-               </Card>
+               <SimpleCard
+                  key={option.title}
+                  title={option.title}
+                  link={option.path}
+                  text={option.description}
+                  imgUrl={option.srcImage}
+               />
             ))}
          </div>
       </div>
