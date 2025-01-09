@@ -1,7 +1,7 @@
 import { useAuth } from "./useAuth";
 import { GroundService } from "../services/grounds.service";
 import { useQuery } from "@tanstack/react-query";
-import { ResponseGroundAllType } from "../vite-env";
+import { ResponseGroundAllType } from "../types";
 
 export const useGround = () => {
    const { getToken } = useAuth();

@@ -12,6 +12,7 @@ export const GroundCard = ({ ground }: GroundCardProps) => {
             <h2 className="text-lg font-semibold text-primary">
                {ground.name}
             </h2>
+            <p>Notas: {ground.notes}</p>
             <Image src={ground.image} width={300} height={200} />
          </CardBody>
          <CardFooter>

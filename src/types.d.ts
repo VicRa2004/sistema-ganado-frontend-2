@@ -43,7 +43,7 @@ export interface AxiosErrorType {
 export interface GroundType {
    id_ground: number;
    name: string;
-   image: string;
+   image?: string;
    notes: string;
    length: number;
    width: number;
