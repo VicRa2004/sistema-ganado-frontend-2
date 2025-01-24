@@ -58,7 +58,7 @@ export function Navbar() {
                         <ProfileOptions />
                      </>
                   ) : (
-                     <Button variant="faded">
+                     <Button color="primary" variant="faded">
                         <Link to="/login">Login</Link>
                      </Button>
                   )}
