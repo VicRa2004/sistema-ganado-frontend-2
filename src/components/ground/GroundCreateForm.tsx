@@ -35,7 +35,11 @@ const groundSchema = z.object({
 // Tipos derivados del esquema
 type GroundFormInputs = z.infer<typeof groundSchema>;
 
-export const GroundCreateForm = () => {
+interface PropsGroundCreate {
+  handleClose: () => void;
+}
+
+export const GroundCreateForm = ({ handleClose }: PropsGroundCreate) => {
   const { createGround } = useGround();
 
   const {
@@ -57,13 +61,12 @@ export const GroundCreateForm = () => {
       },
       image: data.image[0],
     });
+
+    handleClose();
   };
 
   return (
-    <div className="border-2 p-6 rounded-lg flex flex-col items-center">
-      <h2 className="text-xl text-primary font-semibold mb-2">
-        Crear un terreno
-      </h2>
+    <div className="p-2 flex flex-col items-center">
       <form
         className="grid grid-cols-2 gap-4"
         onSubmit={handleSubmit(onSubmit)}
