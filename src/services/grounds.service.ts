@@ -18,6 +18,16 @@ export class GroundService {
     return resp.data;
   }
 
+  async getOneGround(id: number) {
+    const resp = await api.get(`/ground/${id}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    });
+
+    return resp.data.data;
+  }
+
   async createGround({
     ground,
     image,
@@ -37,6 +47,36 @@ export class GroundService {
     formData.append("data", JSON.stringify(ground));
 
     const resp = await api.post("/ground", formData, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log(resp.data);
+  }
+
+  async updateGround({
+    id,
+    ground,
+    image,
+  }: {
+    id: number;
+    ground: GroundCreateType;
+    image?: File;
+  }) {
+    const formData = new FormData();
+
+    console.log(image);
+
+    // Mandamos los datos en este formato para
+    // que podamos procesarlo correctamente
+    if (image) {
+      formData.append("image", image);
+    }
+    formData.append("data", JSON.stringify(ground));
+
+    const resp = await api.put(`/ground/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${this.token}`,
         "Content-Type": "multipart/form-data",

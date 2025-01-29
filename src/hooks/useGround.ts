@@ -1,7 +1,7 @@
 import { useAuth } from "./useAuth";
 import { GroundService } from "../services/grounds.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GroundCreateType, ResponseGroundAllType } from "../types";
+import { GroundType, GroundCreateType, ResponseGroundAllType } from "../types";
 import { useError } from "../hooks/useError";
 
 export const useGround = () => {
@@ -22,6 +22,17 @@ export const useGround = () => {
       return res;
     },
   });
+
+  const useGetOneGround = (id: number) => {
+    return useQuery<GroundType>({
+      queryKey: ["ground", id],
+      refetchOnMount: true,
+      queryFn: async () => {
+        const res = await groundService.getOneGround(id);
+        return res;
+      },
+    });
+  };
 
   // Mutación para crear un terreno
   const createGround = useMutation({
@@ -47,5 +58,5 @@ export const useGround = () => {
     },
   });
 
-  return { getAllGrounds, createGround };
+  return { getAllGrounds, useGetOneGround, createGround };
 };

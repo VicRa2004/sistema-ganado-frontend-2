@@ -3,7 +3,7 @@ import { GroundType } from "../../types";
 
 interface GroundCardProps {
   ground: GroundType;
-  handleUpdate: (id: number) => void;
+  handleUpdate: (ground: GroundType) => void;
 }
 
 export const GroundCard = ({ ground, handleUpdate }: GroundCardProps) => {
@@ -55,7 +55,7 @@ export const GroundCard = ({ ground, handleUpdate }: GroundCardProps) => {
 
       <div className="flex gap-2 mt-4">
         <Button
-          onPress={() => handleUpdate(ground.id_ground)}
+          onPress={() => handleUpdate(ground)}
           variant="shadow"
           color="primary"
         >

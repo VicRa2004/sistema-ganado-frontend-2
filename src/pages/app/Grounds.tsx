@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { GroundUpdateForm } from "../../components/ground/GroundUpdateForm";
+import { GroundType } from "../../types";
 
 export const Grounds = () => {
   const { handleError } = useError();
@@ -28,11 +29,11 @@ export const Grounds = () => {
     onOpenChange: onOpenChangeUpdate,
   } = useDisclosure();
 
-  const [id, setId] = useState(0);
+  const [ground, setGround] = useState<GroundType | null>(null);
 
-  const handleUpdate = (id: number) => {
+  const handleUpdate = (ground: GroundType) => {
     onOpenUpdate();
-    setId(id);
+    setGround(ground);
   };
 
   useEffect(() => {
@@ -78,7 +79,7 @@ export const Grounds = () => {
             <>
               <ModalHeader>Editar Terreno</ModalHeader>
               <ModalBody>
-                <GroundUpdateForm id={id} handleClose={onClose} />
+                <GroundUpdateForm ground={ground} handleClose={onClose} />
               </ModalBody>
             </>
           )}
