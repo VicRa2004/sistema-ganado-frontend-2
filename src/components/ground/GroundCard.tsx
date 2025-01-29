@@ -3,9 +3,10 @@ import { GroundType } from "../../types";
 
 interface GroundCardProps {
   ground: GroundType;
+  handleUpdate: (id: number) => void;
 }
 
-export const GroundCard = ({ ground }: GroundCardProps) => {
+export const GroundCard = ({ ground, handleUpdate }: GroundCardProps) => {
   if (!ground.image) {
     // Se pone una imagen por defecto
     ground.image = "img/default-image.png";
@@ -53,7 +54,11 @@ export const GroundCard = ({ ground }: GroundCardProps) => {
       </div>
 
       <div className="flex gap-2 mt-4">
-        <Button variant="shadow" color="primary">
+        <Button
+          onPress={() => handleUpdate(ground.id_ground)}
+          variant="shadow"
+          color="primary"
+        >
           Editar
         </Button>
         <Button variant="shadow" color="danger">

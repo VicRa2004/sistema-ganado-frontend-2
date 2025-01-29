@@ -1,5 +1,5 @@
 import { useGround } from "../../hooks/useGround";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useError } from "../../hooks/useError";
 import { GroundCard } from "../../components/ground/GroundCard";
 import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
@@ -12,12 +12,28 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
+import { GroundUpdateForm } from "../../components/ground/GroundUpdateForm";
 
 export const Grounds = () => {
   const { handleError } = useError();
   const { getAllGrounds } = useGround();
   const { isPending, error, data } = getAllGrounds;
+
+  // Logica del Modal para crear un nuevo terreno
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const {
+    isOpen: isOpenUpdate,
+    onOpen: onOpenUpdate,
+    onOpenChange: onOpenChangeUpdate,
+  } = useDisclosure();
+
+  const [id, setId] = useState(0);
+
+  const handleUpdate = (id: number) => {
+    onOpenUpdate();
+    setId(id);
+  };
 
   useEffect(() => {
     if (error) {
@@ -42,6 +58,7 @@ export const Grounds = () => {
           + Crear
         </Button>
       </div>
+
       <Modal onOpenChange={onOpenChange} isOpen={isOpen}>
         <ModalContent>
           {(onClose) => (
@@ -49,6 +66,19 @@ export const Grounds = () => {
               <ModalHeader>Crear Terreno</ModalHeader>
               <ModalBody>
                 <GroundCreateForm handleClose={onClose} />
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
+      <Modal onOpenChange={onOpenChangeUpdate} isOpen={isOpenUpdate}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>Editar Terreno</ModalHeader>
+              <ModalBody>
+                <GroundUpdateForm id={id} handleClose={onClose} />
               </ModalBody>
             </>
           )}
@@ -63,7 +93,11 @@ export const Grounds = () => {
             {data?.data &&
               data?.data.length !== 0 &&
               data.data.map((ground, index) => (
-                <GroundCard key={index} ground={ground} />
+                <GroundCard
+                  handleUpdate={handleUpdate}
+                  key={index}
+                  ground={ground}
+                />
               ))}
 
             {data?.data && data?.data.length === 0 && (
