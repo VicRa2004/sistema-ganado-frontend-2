@@ -161,7 +161,7 @@ export const GroundUpdateForm = ({
           variant="shadow"
           type="submit"
         >
-          Crear terreno
+          Actualizar terreno
         </Button>
       </form>
     </div>
