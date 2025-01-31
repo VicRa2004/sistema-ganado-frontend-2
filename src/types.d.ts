@@ -40,6 +40,8 @@ export interface AxiosErrorType {
   error: ErrorApiType;
 }
 
+// Terrrenos
+
 export interface GroundType {
   id_ground: number; //
   name: string;
@@ -60,6 +62,28 @@ export type GroundCreateType = Omit<
 
 export interface ResponseGroundAllType {
   data: GroundType[];
+  maxPages: number;
+  status: number;
+}
+
+// Fierros
+
+export interface IronType {
+  id_iron: number;
+  name: string;
+  image: string;
+  id_user: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type IronCreateType = Omit<
+  IronType,
+  "id_iron" | "image" | "id_user" | "createdAt" | "updatedAt"
+>;
+
+export interface ResponseIronAllType {
+  data: IronType[];
   maxPages: number;
   status: number;
 }
