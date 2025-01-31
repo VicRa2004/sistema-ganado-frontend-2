@@ -3,10 +3,15 @@ import { GroundType } from "../../types";
 
 interface GroundCardProps {
   ground: GroundType;
+  handleDelete: (ground: GroundType) => void;
   handleUpdate: (ground: GroundType) => void;
 }
 
-export const GroundCard = ({ ground, handleUpdate }: GroundCardProps) => {
+export const GroundCard = ({
+  ground,
+  handleUpdate,
+  handleDelete,
+}: GroundCardProps) => {
   if (!ground.image) {
     // Se pone una imagen por defecto
     ground.image = "img/default-image.png";
@@ -61,7 +66,11 @@ export const GroundCard = ({ ground, handleUpdate }: GroundCardProps) => {
         >
           Editar
         </Button>
-        <Button variant="shadow" color="danger">
+        <Button
+          onPress={() => handleDelete(ground)}
+          variant="shadow"
+          color="danger"
+        >
           Eliminar
         </Button>
       </div>

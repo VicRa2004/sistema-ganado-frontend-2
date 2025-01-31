@@ -11,13 +11,14 @@ import {
   ModalBody,
   Button,
   useDisclosure,
+  ModalFooter,
 } from "@nextui-org/react";
 import { GroundUpdateForm } from "../../components/ground/GroundUpdateForm";
 import { GroundType } from "../../types";
 
 export const Grounds = () => {
   const { handleError } = useError();
-  const { getAllGrounds } = useGround();
+  const { getAllGrounds, deleteGround } = useGround();
   const { isPending, error, data } = getAllGrounds;
 
   // Logica del Modal para crear un nuevo terreno
@@ -29,11 +30,22 @@ export const Grounds = () => {
     onOpenChange: onOpenChangeUpdate,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onOpenChange: onOpenChangeDelete,
+  } = useDisclosure();
+
   const [ground, setGround] = useState<GroundType | null>(null);
 
   const handleUpdate = (ground: GroundType) => {
-    onOpenUpdate();
     setGround(ground);
+    onOpenUpdate();
+  };
+
+  const handleDelete = (ground: GroundType) => {
+    setGround(ground);
+    onOpenDelete();
   };
 
   useEffect(() => {
@@ -86,6 +98,41 @@ export const Grounds = () => {
         </ModalContent>
       </Modal>
 
+      <Modal onOpenChange={onOpenChangeDelete} isOpen={isOpenDelete}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>Editar Terreno</ModalHeader>
+              <ModalBody>
+                <p>Desea eliminar el terreno permanentemente?</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  onPress={() => onClose()}
+                  color="primary"
+                  variant="light"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  onPress={() => {
+                    if (ground?.id_ground) {
+                      deleteGround.mutate({
+                        id: ground.id_ground,
+                      });
+                    }
+                    onClose();
+                  }}
+                  color="danger"
+                >
+                  Eliminar
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
       <div className="w-full flex flex-col items-center gap-4">
         {isPending ? (
           <SkeletonGrid />
@@ -96,6 +143,7 @@ export const Grounds = () => {
               data.data.map((ground, index) => (
                 <GroundCard
                   handleUpdate={handleUpdate}
+                  handleDelete={handleDelete}
                   key={index}
                   ground={ground}
                 />
