@@ -47,6 +47,7 @@ export const useGround = () => {
         ground: newGround,
         image,
       });
+
       return res;
     },
     onSuccess: () => {
@@ -58,5 +59,51 @@ export const useGround = () => {
     },
   });
 
-  return { getAllGrounds, useGetOneGround, createGround };
+  const updateGround = useMutation({
+    mutationFn: async ({
+      id,
+      newGround,
+      image,
+    }: {
+      id: number;
+      newGround: GroundCreateType;
+      image?: File;
+    }) => {
+      const res = await groundService.updateGround({
+        id,
+        ground: newGround,
+        image,
+      });
+      return res;
+    },
+    onSuccess: () => {
+      // Invalida la consulta para refrescar los terrenos
+      queryClient.invalidateQueries({ queryKey: ["grounds"] });
+    },
+    onError: (error) => {
+      handleError(error);
+    },
+  });
+
+  const deleteGround = useMutation({
+    mutationFn: async ({ id }: { id: number }) => {
+      const res = await groundService.deleteGround({ id });
+      return res;
+    },
+    onSuccess: () => {
+      // Invalida la consulta para refrescar los terrenos
+      queryClient.invalidateQueries({ queryKey: ["grounds"] });
+    },
+    onError: (error) => {
+      handleError(error);
+    },
+  });
+
+  return {
+    getAllGrounds,
+    useGetOneGround,
+    createGround,
+    updateGround,
+    deleteGround,
+  };
 };

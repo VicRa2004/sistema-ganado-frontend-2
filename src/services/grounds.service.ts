@@ -46,6 +46,9 @@ export class GroundService {
     }
     formData.append("data", JSON.stringify(ground));
 
+    console.log(ground);
+    console.log(formData);
+
     const resp = await api.post("/ground", formData, {
       headers: {
         Authorization: `Bearer ${this.token}`,
@@ -74,12 +77,26 @@ export class GroundService {
     if (image) {
       formData.append("image", image);
     }
+
     formData.append("data", JSON.stringify(ground));
+
+    console.log(ground);
+    console.log(formData);
 
     const resp = await api.put(`/ground/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${this.token}`,
         "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log(resp.data);
+  }
+
+  async deleteGround({ id }: { id: number }) {
+    const resp = await api.delete(`/ground/${id}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
       },
     });
 

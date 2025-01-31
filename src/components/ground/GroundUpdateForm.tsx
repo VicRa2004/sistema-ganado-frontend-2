@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../components/ui/Input";
 import { Button } from "@nextui-org/react";
 import { GroundType } from "../../types";
+import { useGround } from "../../hooks/useGround";
 
 // Esquema de validación con zod
 const groundSchema = z.object({
@@ -59,10 +60,26 @@ export const GroundUpdateForm = ({
     },
   });
 
-  const onSubmit = async (updateGround: GroundFormInputs) => {
+  const { updateGround } = useGround();
+
+  const onSubmit = async (groundForm: GroundFormInputs) => {
     handleClose();
 
-    // Hacer la mutacion de los datos
+    const newGround = {
+      name: groundForm.name,
+      length: groundForm.length,
+      width: groundForm.width,
+      address: groundForm.address,
+      notes: groundForm.notes,
+    };
+
+    if (ground) {
+      updateGround.mutate({
+        id: ground.id_ground,
+        newGround,
+        image: groundForm.image[0],
+      });
+    }
   };
 
   return (
