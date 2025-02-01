@@ -8,8 +8,8 @@ export class GroundService {
     this.token = token;
   }
 
-  async getGrouns() {
-    const resp = await api.get("/ground", {
+  async getGrouns(page: number = 1) {
+    const resp = await api.get(`/ground?page=${page}`, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },

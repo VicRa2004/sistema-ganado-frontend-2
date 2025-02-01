@@ -23,7 +23,7 @@ export const Modal = ({
   footer,
 }: ModalProps) => {
   return (
-    <NextUIModal isOpen={isOpen} onClose={onClose}>
+    <NextUIModal scrollBehavior="outside" isOpen={isOpen} onClose={onClose}>
       <ModalContent>
         <ModalHeader>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>

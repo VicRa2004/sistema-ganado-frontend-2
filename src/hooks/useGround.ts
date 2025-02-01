@@ -15,6 +15,9 @@ export const useGround = () => {
 
   const queryClient = useQueryClient();
 
+  /**
+   * @deprecated
+   */
   const getAllGrounds = useQuery<ResponseGroundAllType>({
     queryKey: ["grounds"],
     queryFn: async () => {
@@ -22,6 +25,16 @@ export const useGround = () => {
       return res;
     },
   });
+
+  const useGetAllGround = (page: number) => {
+    return useQuery<ResponseGroundAllType>({
+      queryKey: ["grounds", page],
+      queryFn: async () => {
+        const res = await groundService.getGrouns(page);
+        return res;
+      },
+    });
+  };
 
   const useGetOneGround = (id: number) => {
     return useQuery<GroundType>({
@@ -101,6 +114,7 @@ export const useGround = () => {
 
   return {
     getAllGrounds,
+    useGetAllGround,
     useGetOneGround,
     createGround,
     updateGround,

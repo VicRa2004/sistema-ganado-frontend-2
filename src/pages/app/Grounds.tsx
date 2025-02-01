@@ -12,14 +12,16 @@ import {
   Button,
   useDisclosure,
   ModalFooter,
+  Pagination,
 } from "@nextui-org/react";
 import { GroundUpdateForm } from "../../components/ground/GroundUpdateForm";
 import { GroundType } from "../../types";
 
 export const Grounds = () => {
   const { handleError } = useError();
-  const { getAllGrounds, deleteGround } = useGround();
-  const { isPending, error, data } = getAllGrounds;
+  const { useGetAllGround, deleteGround } = useGround();
+  const [currentPage, setCurrentPage] = useState(0);
+  const { isPending, error, data } = useGetAllGround(currentPage);
 
   // Logica del Modal para crear un nuevo terreno
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -72,7 +74,11 @@ export const Grounds = () => {
         </Button>
       </div>
 
-      <Modal onOpenChange={onOpenChange} isOpen={isOpen}>
+      <Modal
+        scrollBehavior="outside"
+        onOpenChange={onOpenChange}
+        isOpen={isOpen}
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -156,6 +162,12 @@ export const Grounds = () => {
             )}
           </div>
         )}
+
+        <Pagination
+          onChange={setCurrentPage}
+          total={data?.maxPages || 1}
+          page={currentPage}
+        />
       </div>
     </div>
   );
