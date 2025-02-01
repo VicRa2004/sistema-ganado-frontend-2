@@ -3,51 +3,26 @@ import { useEffect, useState } from "react";
 import { useError } from "../../hooks/useError";
 import { GroundCard } from "../../components/ground/GroundCard";
 import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
-import { GroundCreateForm } from "../../components/ground/GroundCreateForm";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  Button,
-  useDisclosure,
-  ModalFooter,
-  Pagination,
-} from "@nextui-org/react";
-import { GroundUpdateForm } from "../../components/ground/GroundUpdateForm";
+import { Button, Pagination } from "@nextui-org/react";
 import { GroundType } from "../../types";
+import { GroundCreateModal } from "../../components/ground/GroundCreateModal";
+import { GroundUpdateModal } from "../../components/ground/GroundUpdateModal";
+import { GroundDeleteModal } from "../../components/ground/GroundDeleteModal";
+import { useModal } from "../../hooks/useModal";
 
 export const Grounds = () => {
   const { handleError } = useError();
-  const { useGetAllGround, deleteGround } = useGround();
+  const { useGetAllGround } = useGround();
   const [currentPage, setCurrentPage] = useState(0);
   const { isPending, error, data } = useGetAllGround(currentPage);
 
-  // Logica del Modal para crear un nuevo terreno
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const {
-    isOpen: isOpenUpdate,
-    onOpen: onOpenUpdate,
-    onOpenChange: onOpenChangeUpdate,
-  } = useDisclosure();
-
-  const {
-    isOpen: isOpenDelete,
-    onOpen: onOpenDelete,
-    onOpenChange: onOpenChangeDelete,
-  } = useDisclosure();
-
   const [ground, setGround] = useState<GroundType | null>(null);
 
-  const handleUpdate = (ground: GroundType) => {
-    setGround(ground);
-    onOpenUpdate();
-  };
+  const { modalType, closeModal, openModal } = useModal();
 
-  const handleDelete = (ground: GroundType) => {
+  const handleModal = (type: string, ground: GroundType) => {
+    openModal(type);
     setGround(ground);
-    onOpenDelete();
   };
 
   useEffect(() => {
@@ -65,7 +40,7 @@ export const Grounds = () => {
           Crear un nuevo Terreno
         </h3>
         <Button
-          onPress={onOpen}
+          onPress={() => openModal("create-ground")}
           color="primary"
           variant="shadow"
           className="px-6 py-2 text-sm"
@@ -74,70 +49,22 @@ export const Grounds = () => {
         </Button>
       </div>
 
-      <Modal
-        scrollBehavior="outside"
-        onOpenChange={onOpenChange}
-        isOpen={isOpen}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Crear Terreno</ModalHeader>
-              <ModalBody>
-                <GroundCreateForm handleClose={onClose} />
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <GroundCreateModal
+        isOpen={modalType == "create-ground"}
+        onClose={closeModal}
+      />
 
-      <Modal onOpenChange={onOpenChangeUpdate} isOpen={isOpenUpdate}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Editar Terreno</ModalHeader>
-              <ModalBody>
-                <GroundUpdateForm ground={ground} handleClose={onClose} />
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <GroundUpdateModal
+        isOpen={modalType == "update-ground"}
+        onClose={closeModal}
+        ground={ground}
+      />
 
-      <Modal onOpenChange={onOpenChangeDelete} isOpen={isOpenDelete}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Editar Terreno</ModalHeader>
-              <ModalBody>
-                <p>Desea eliminar el terreno permanentemente?</p>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  onPress={() => onClose()}
-                  color="primary"
-                  variant="light"
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  onPress={() => {
-                    if (ground?.id_ground) {
-                      deleteGround.mutate({
-                        id: ground.id_ground,
-                      });
-                    }
-                    onClose();
-                  }}
-                  color="danger"
-                >
-                  Eliminar
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <GroundDeleteModal
+        isOpen={modalType == "delete-ground"}
+        ground={ground}
+        onClose={closeModal}
+      />
 
       <div className="w-full flex flex-col items-center gap-4">
         {isPending ? (
@@ -148,8 +75,8 @@ export const Grounds = () => {
               data?.data.length !== 0 &&
               data.data.map((ground, index) => (
                 <GroundCard
-                  handleUpdate={handleUpdate}
-                  handleDelete={handleDelete}
+                  handleUpdate={() => handleModal("update-ground", ground)}
+                  handleDelete={() => handleModal("delete-ground", ground)}
                   key={index}
                   ground={ground}
                 />
