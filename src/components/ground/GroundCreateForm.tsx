@@ -51,18 +51,18 @@ export const GroundCreateForm = ({ handleClose }: PropsGroundCreate) => {
   });
 
   const onSubmit = async (data: GroundFormInputs) => {
-    createGround.mutate({
-      newGround: {
-        name: data.name,
-        length: data.length,
-        width: data.width,
-        address: data.address,
-        notes: data.notes,
-      },
-      image: data.image[0],
-    });
-
-    handleClose();
+    createGround
+      .mutateAsync({
+        newGround: {
+          name: data.name,
+          length: data.length,
+          width: data.width,
+          address: data.address,
+          notes: data.notes,
+        },
+        image: data.image[0],
+      })
+      .finally(() => handleClose());
   };
 
   return (

@@ -63,8 +63,6 @@ export const GroundUpdateForm = ({
   const { updateGround } = useGround();
 
   const onSubmit = async (groundForm: GroundFormInputs) => {
-    handleClose();
-
     const newGround = {
       name: groundForm.name,
       length: groundForm.length,
@@ -74,11 +72,13 @@ export const GroundUpdateForm = ({
     };
 
     if (ground) {
-      updateGround.mutate({
-        id: ground.id_ground,
-        newGround,
-        image: groundForm.image[0],
-      });
+      updateGround
+        .mutateAsync({
+          id: ground.id_ground,
+          newGround,
+          image: groundForm.image[0],
+        })
+        .finally(() => handleClose());
     }
   };
 
@@ -160,6 +160,7 @@ export const GroundUpdateForm = ({
           color="primary"
           variant="shadow"
           type="submit"
+          isLoading={updateGround.isPending}
         >
           Actualizar terreno
         </Button>
