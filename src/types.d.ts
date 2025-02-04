@@ -92,3 +92,27 @@ export interface ResponseIronOneType {
   data: IronType;
   status: number;
 }
+
+// Ganados
+
+export interface CattleType {
+  id_cattle: number;
+  description: string;
+  father?: number;
+  mother?: number;
+  gender: "male" | "female";
+  registrationNumber: string; // Arete Numero grande
+  lotNumber: string; // Arete numero pequeño
+  color: string;
+  birthdate: Date;
+  observations?: string;
+  image: string;
+  reason_for_withdrawal?: string; // Motivo de baja
+  status: number; // 1 Activo, 0 Inactivo
+  id_iron: number;
+  id_race: number;
+  id_user: number;
+  id_ground: number;
+}
+
+export type CattleCreate = Omit<CattleType, "id_cattle" | "status">;
