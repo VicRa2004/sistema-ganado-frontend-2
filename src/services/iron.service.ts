@@ -1,4 +1,5 @@
 import { api } from "../lib/axios";
+import { ResponseIronAllType, ResponseIronOneType } from "../types";
 
 export class IronService {
   private token: string | null;
@@ -7,8 +8,8 @@ export class IronService {
     this.token = token;
   }
 
-  async getAll() {
-    const resp = await api.get("/irons", {
+  async getAll(page: number = 1) {
+    const resp = await api.get<ResponseIronAllType>(`/iron?page=${page}`, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -18,7 +19,7 @@ export class IronService {
   }
 
   async getOne(id: number) {
-    const resp = await api.get(`/irons/${id}`, {
+    const resp = await api.get<ResponseIronOneType>(`/iron/${id}`, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -27,9 +28,49 @@ export class IronService {
     return resp.data.data;
   }
 
-  create() {}
+  async create({ name, image }: { name: string; image: File }) {
+    const formData = new FormData();
 
-  update() {}
+    console.log({ name, image });
 
-  delete() {}
+    formData.append("name", name);
+    formData.append("image", image);
+
+    console.log(image);
+
+    const resp = await api.post(`/iron`, formData, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log(resp);
+  }
+
+  async update(id: number, { name, image }: { name: string; image: File }) {
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("image", image);
+
+    const resp = await api.put(`/iron/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log(resp);
+  }
+
+  async delete({ id }: { id: number }) {
+    const resp = await api.delete(`/iron/${id}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    });
+
+    console.log(resp);
+  }
 }

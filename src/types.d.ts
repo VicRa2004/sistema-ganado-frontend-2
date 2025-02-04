@@ -87,3 +87,8 @@ export interface ResponseIronAllType {
   maxPages: number;
   status: number;
 }
+
+export interface ResponseIronOneType {
+  data: IronType;
+  status: number;
+}

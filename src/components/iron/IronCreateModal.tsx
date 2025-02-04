@@ -1,4 +1,5 @@
 import { Modal } from "../ui/Modal";
+import { IronForm } from "./IronForm";
 
 interface IronModalProps {
   isOpen: boolean;
@@ -8,8 +9,7 @@ interface IronModalProps {
 export const IronModal = ({ isOpen, onClose }: IronModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Product Details">
-      <p>Modal de Fierros</p>
-      {/** Agregar el formulario para enviar los datos */}
+      <IronForm action="create" handleClose={onClose} />
     </Modal>
   );
 };
