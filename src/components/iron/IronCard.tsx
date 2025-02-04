@@ -1,5 +1,5 @@
-import { Button } from "@nextui-org/react";
 import { IronType } from "../../types";
+import { CardRegistro } from "../ui/CardRegistro";
 
 interface IronCardProps {
   iron: IronType;
@@ -13,7 +13,18 @@ export const IronCard = ({
   handleUpdate,
 }: IronCardProps) => {
   return (
-    <div className="p-6 border dark:border-none rounded-2xl shadow-lg dark:bg-neutral-950 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-neutral-900 dark:to-neutral-950">
+    <CardRegistro
+      data={iron}
+      handleDelete={handleDelete}
+      handleUpdate={handleUpdate}
+      title={iron.name}
+      image={iron.image}
+    ></CardRegistro>
+  );
+};
+
+/**
+ * <div className="p-6 border dark:border-none rounded-2xl shadow-lg dark:bg-neutral-950 bg-gradient-to-b from-gray-100 to-gray-200 dark:from-neutral-900 dark:to-neutral-950">
       <img
         src={iron.image}
         alt="Terreno"
@@ -40,5 +51,4 @@ export const IronCard = ({
         </Button>
       </div>
     </div>
-  );
-};
+ */
