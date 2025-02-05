@@ -14,6 +14,7 @@ import { Grounds } from "./pages/app/Grounds";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Irons } from "./pages/app/Irons";
+import { Cattles } from "./pages/app/Cattles";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ export const App = () => {
               <Route index element={<AppMain />}></Route>
               <Route path="grounds" element={<Grounds />}></Route>
               <Route path="irons" element={<Irons />}></Route>
+              <Route path="cattles" element={<Cattles />}></Route>
             </Route>
             <Route path="*" element={<Error404 />}></Route>
           </Route>

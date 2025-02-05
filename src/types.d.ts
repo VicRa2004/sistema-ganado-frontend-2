@@ -115,4 +115,18 @@ export interface CattleType {
   id_ground: number;
 }
 
-export type CattleCreate = Omit<CattleType, "id_cattle" | "status">;
+export type CattleCreate = Omit<
+  CattleType,
+  "id_cattle" | "status" | "image" | "id_user"
+>;
+
+export interface ResponseCattleAllType {
+  data: CattleType[];
+  maxPages: number;
+  status: number;
+}
+
+export interface ResponseCattleOneType {
+  data: CattleType;
+  status: number;
+}

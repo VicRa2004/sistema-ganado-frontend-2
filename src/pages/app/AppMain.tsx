@@ -18,7 +18,7 @@ const options = [
   {
     title: "Ganado",
     description: "Administración del ganado",
-    path: "/app/ganado",
+    path: "/app/cattles",
     srcImage:
       "https://multimin.com.mx/wp-content/uploads/2022/08/MM_Foto_0019_cows-on-green-field-and-blue-sky-1080x627.jpg",
   },
