@@ -236,21 +236,6 @@ export const CattleForm = ({
           )}
         </div>
 
-        {/** Estado (0 o 1) */}
-        <div className="col-span-full">
-          <Input
-            {...register("status")}
-            labelText="Estado (0 inactivo / 1 activo)"
-            type="number"
-            placeholder="1"
-          />
-          {errors.status && (
-            <span className="text-red-500 text-sm">
-              {errors.status.message}
-            </span>
-          )}
-        </div>
-
         {/** Fierro (select de ejemplo) */}
         <div className="col-span-full">
           <label className="block mb-1">Fierro</label>

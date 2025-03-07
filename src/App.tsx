@@ -9,12 +9,14 @@ import { ConfirmEmail } from "./pages/ConfirmEmail";
 
 import { HomeLayout } from "./pages/layouts/HomeLayout";
 import { AppMain } from "./pages/app/AppMain";
-import AppLayout from "./pages/layouts/AppLayout";
 import { Grounds } from "./pages/app/Grounds";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Irons } from "./pages/app/Irons";
 import { Cattles } from "./pages/app/Cattles";
+
+import { RouteProtectec } from "./components/RouteProtectec";
+import { AppLayout } from "./pages/layouts/AppLayout";
 
 const queryClient = new QueryClient();
 
@@ -31,11 +33,13 @@ export const App = () => {
             <Route path="/register" element={<Register />}></Route>
             <Route path="/send-email/:email" element={<SendEmail />}></Route>
             <Route path="/verify-email/:token" element={<ConfirmEmail />} />
-            <Route path="/app" element={<AppLayout />}>
-              <Route index element={<AppMain />}></Route>
-              <Route path="grounds" element={<Grounds />}></Route>
-              <Route path="irons" element={<Irons />}></Route>
-              <Route path="cattles" element={<Cattles />}></Route>
+            <Route path="/app" element={<RouteProtectec />}>
+              <Route element={<AppLayout />}>
+                <Route index element={<AppMain />}></Route>
+                <Route path="grounds" element={<Grounds />}></Route>
+                <Route path="irons" element={<Irons />}></Route>
+                <Route path="cattles" element={<Cattles />}></Route>
+              </Route>
             </Route>
             <Route path="*" element={<Error404 />}></Route>
           </Route>

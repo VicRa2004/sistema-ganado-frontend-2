@@ -29,5 +29,7 @@ export const useCattle = () => {
     return { data, isPending };
   };
 
-  return { useGetAllCattles };
+  const useCreateCattle = () => {};
+
+  return { useGetAllCattles, useCreateCattle };
 };
