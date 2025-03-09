@@ -1,9 +1,10 @@
-import { SelectHTMLAttributes, forwardRef } from "react";
+import { forwardRef } from "react";
 import { useCattle } from "../../../hooks/useCattle";
+import { Select } from "../../ui/Select"; // Importa el componente Select corregido
 
-interface CattleSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+interface CattleSelectProps {
   label: string;
-  error?: string; // Hacer opcional para evitar errores si no se proporciona
+  error?: string;
 }
 
 export const CattleSelect = forwardRef<HTMLSelectElement, CattleSelectProps>(
@@ -12,27 +13,17 @@ export const CattleSelect = forwardRef<HTMLSelectElement, CattleSelectProps>(
     const { data } = useGetAllCattles();
 
     return (
-      <div className="flex flex-col gap-2 col-span-full">
-        <label
-          className="text-sm font-medium text-gray-700 dark:text-gray-300"
-          htmlFor={rest.id || ""}
-        >
-          {label}
-        </label>
-        <select {...rest} ref={ref} className="w-full p-2 border rounded">
-          <option value="" disabled>
-            Seleccione una opción
+      <Select ref={ref} labelText={label} error={error} {...rest}>
+        <option value="" disabled>
+          Seleccione una opción
+        </option>
+        <option value="-1">Sin padre</option>
+        {data?.data.map((cattle) => (
+          <option key={cattle.id_cattle} value={cattle.id_cattle}>
+            {cattle.description}
           </option>
-          <option value="">Sin padre</option>
-          {data?.data.map((cattle) => (
-            <option key={cattle.id_cattle} value={cattle.id_cattle}>
-              {cattle.description}
-            </option>
-          ))}
-        </select>
-
-        {error && <span className="text-red-500 text-sm">{error}</span>}
-      </div>
+        ))}
+      </Select>
     );
   }
 );

@@ -29,15 +29,9 @@ export const cattleSchema = z.object({
     .trim()
     .min(1, "La descripción es requerida"),
 
-  father: z.preprocess(
-    parseNumber,
-    z.number().positive("El padre debe ser un número positivo").optional()
-  ),
+  father: z.preprocess(parseNumber, z.number().optional()),
 
-  mother: z.preprocess(
-    parseNumber,
-    z.number().positive("La madre debe ser un número positivo").optional()
-  ),
+  mother: z.preprocess(parseNumber, z.number().optional()),
 
   gender: z.enum(["male", "female"]).optional().default("male"),
 

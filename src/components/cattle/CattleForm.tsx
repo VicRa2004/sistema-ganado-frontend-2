@@ -10,6 +10,7 @@ import {
   cattleSchema,
 } from "../../lib/schemas/cattle.schema";
 import { IronSelect } from "./select/IronSelect";
+import { Select } from "../ui/Select";
 
 interface CattleFormProps {
   cattle?: CattleType | null;
@@ -65,18 +66,10 @@ export const CattleForm = ({ action, cattle }: CattleFormProps) => {
         />
 
         {/** Género */}
-        <div className="col-span-full">
-          <label className="block mb-1">Género</label>
-          <select {...register("gender")} className="w-full p-2 border rounded">
-            <option value="male">Masculino</option>
-            <option value="female">Femenino</option>
-          </select>
-          {errors.gender && (
-            <span className="text-red-500 text-sm">
-              {errors.gender.message}
-            </span>
-          )}
-        </div>
+        <Select labelText="Selecione el genero" {...register("gender")}>
+          <option value="male">Masculino</option>
+          <option value="female">Femenino</option>
+        </Select>
 
         {/** Número de registro */}
 
@@ -128,7 +121,11 @@ export const CattleForm = ({ action, cattle }: CattleFormProps) => {
         />
 
         {/** Fierro (select de ejemplo) */}
-        <IronSelect error={errors.id_iron?.message} />
+        <IronSelect
+          label="Selecione el fierro"
+          {...register("id_iron")}
+          error={errors.id_iron?.message}
+        />
 
         {/** Raza (select de ejemplo) */}
         <div className="col-span-full">
