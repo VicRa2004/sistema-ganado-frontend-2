@@ -1,33 +1,23 @@
 import { Button, Pagination } from "@nextui-org/react";
-import { useModal } from "../../hooks/useModal";
 import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
 import { useState } from "react";
 import { useCattle } from "../../hooks/useCattle";
-import { CattleType } from "../../types";
 import { CattleCard } from "../../components/cattle/CattleCard";
-import { CattleCreateModal } from "../../components/cattle/CattleCreateModal";
+import { useNavigate } from "react-router-dom";
+import { CattleType } from "../../types";
 
 export const Cattles = () => {
-  const { closeModal, modalType, openModal } = useModal();
   const [currentPage, setCurrentPage] = useState(0);
   const { useGetAllCattles } = useCattle();
 
+  const navigate = useNavigate();
+
   const { isPending, data } = useGetAllCattles(currentPage);
 
-  const [cattle, setCattle] = useState<CattleType | null>(null);
-
-  const handleCattle = (cattle: CattleType, typeModal: string) => {
-    setCattle(cattle);
-    openModal(typeModal);
-  };
+  const handleCattle = (cattle: CattleType, type: "update" | "delete") => {};
 
   return (
     <div className="flex-grow h-full w-full flex flex-col py-4 px-16  justify-start items-center gap-4">
-      <CattleCreateModal
-        onClose={closeModal}
-        isOpen={modalType == "create-cattle"}
-      />
-
       <h1 className="text-3xl font-bold text-primary">Ganados</h1>
 
       <div className="py-4 flex flex-col items-center gap-3 bg-gray-100 dark:bg-neutral-900 rounded-xl shadow-md p-6">
@@ -35,7 +25,7 @@ export const Cattles = () => {
           Crear un Registro de Ganado
         </h3>
         <Button
-          onPress={() => openModal("create-cattle")}
+          onPress={() => navigate("/app/cattles-create")}
           color="primary"
           variant="shadow"
           className="px-6 py-2 text-sm"
@@ -54,8 +44,8 @@ export const Cattles = () => {
               data.data.map((cattle) => (
                 <CattleCard
                   key={cattle.id_cattle}
-                  handleUpdate={() => handleCattle(cattle, "update-cattle")}
-                  handleDelete={() => handleCattle(cattle, "delete-cattle")}
+                  handleUpdate={() => handleCattle(cattle, "update")}
+                  handleDelete={() => handleCattle(cattle, "delete")}
                   cattle={cattle}
                 />
               ))}

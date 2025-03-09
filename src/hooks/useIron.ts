@@ -13,14 +13,18 @@ export const useIron = () => {
 
   const queryClient = useQueryClient();
 
-  const useGetAllIrons = (page: number) => {
-    return useQuery({
-      queryKey: ["irons", page],
+  const useGetAllIrons = (page?: number) => {
+    const currentPage = page || 1;
+
+    const { data, isPending } = useQuery({
+      queryKey: ["irons", currentPage],
       queryFn: async () => {
         const res = await ironService.getAll(page);
         return res;
       },
     });
+
+    return { data, isPending };
   };
 
   const useCreateIron = () => {

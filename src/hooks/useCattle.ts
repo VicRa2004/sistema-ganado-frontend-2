@@ -13,11 +13,13 @@ export const useCattle = () => {
 
   const queryClient = useQueryClient();
 
-  const useGetAllCattles = (page: number) => {
+  const useGetAllCattles = (page?: number) => {
+    const currentPage = page || 1;
+
     const { data, isError, isPending, error } = useQuery({
       queryKey: ["cattle", page],
       queryFn: async () => {
-        const res = await cattleService.getAll(page);
+        const res = await cattleService.getAll(currentPage);
         return res;
       },
     });

@@ -17,6 +17,7 @@ import { Cattles } from "./pages/app/Cattles";
 
 import { RouteProtectec } from "./components/RouteProtectec";
 import { AppLayout } from "./pages/layouts/AppLayout";
+import { CattleCreate } from "./pages/app/cattle/CattleCreate";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ export const App = () => {
                 <Route path="grounds" element={<Grounds />}></Route>
                 <Route path="irons" element={<Irons />}></Route>
                 <Route path="cattles" element={<Cattles />}></Route>
+                <Route path="cattles-create" element={<CattleCreate />} />
               </Route>
             </Route>
             <Route path="*" element={<Error404 />}></Route>
