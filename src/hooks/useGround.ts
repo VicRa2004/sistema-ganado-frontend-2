@@ -26,7 +26,7 @@ export const useGround = () => {
     },
   });
 
-  const useGetAllGround = (page: number) => {
+  const useGetAllGround = (page?: number) => {
     return useQuery<ResponseGroundAllType>({
       queryKey: ["grounds", page],
       queryFn: async () => {

@@ -64,15 +64,13 @@ export const cattleSchema = z.object({
 
   reason_for_withdrawal: z.string().optional(),
 
-  status: z.preprocess(parseNumber, z.number().min(0).max(1).optional()),
+  status: z.boolean({}).optional(),
 
   id_iron: z.preprocess(
     parseNumber,
-    z
-      .number({
-        required_error: "El fierro es requerido",
-      })
-      .positive("El fierro debe ser un número positivo")
+    z.number({
+      required_error: "El fierro es requerido",
+    })
   ),
 
   id_race: z.preprocess(
@@ -86,11 +84,9 @@ export const cattleSchema = z.object({
 
   id_ground: z.preprocess(
     parseNumber,
-    z
-      .number({
-        required_error: "El terreno es requerido",
-      })
-      .positive("El terreno debe ser un número positivo")
+    z.number({
+      required_error: "El terreno es requerido",
+    })
   ),
 });
 

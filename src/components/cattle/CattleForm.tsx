@@ -11,6 +11,19 @@ import {
 } from "../../lib/schemas/cattle.schema";
 import { IronSelect } from "./select/IronSelect";
 import { Select } from "../ui/Select";
+import { RaceSelect } from "./select/RaceSelect";
+import { GroundSelect } from "./select/GroundSelect";
+
+import { Switch } from "@nextui-org/react";
+import { CustomInput } from "../ui/CustomInput";
+import { useState } from "react";
+import { useCattle } from "../../hooks/useCattle";
+
+/**
+ * Falta:
+ * Poder subir la imagen
+ * Redirecionar el usuario
+ */
 
 interface CattleFormProps {
   cattle?: CattleType | null;
@@ -21,19 +34,35 @@ export const CattleForm = ({ action, cattle }: CattleFormProps) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<CattleFormInputs>({
     resolver: zodResolver(cattleSchema),
     defaultValues: {
       ...cattle,
+      status: cattle?.status == 1,
     },
   });
 
-  console.log(watch());
+  const { useCreateCattle } = useCattle();
+  const { isPending, mutateAsync } = useCreateCattle();
+
+  const [isSelected, setIsSelected] = useState(false);
+
+  //console.log(watch());
 
   const onSubmit = async (data: CattleFormInputs) => {
-    console.log("Datos del formulario:", data);
+    const newData = {
+      ...data,
+      status: data.status ? 1 : 0,
+    };
+
+    console.log(data);
+
+    if (action == "create") {
+      mutateAsync({
+        data: newData,
+      });
+    }
   };
 
   return (
@@ -112,12 +141,21 @@ export const CattleForm = ({ action, cattle }: CattleFormProps) => {
           error={errors.observations?.message}
         />
 
+        <CustomInput labelText="Dar de baja ">
+          <Switch
+            isSelected={isSelected}
+            onValueChange={setIsSelected}
+            {...register("status")}
+          />
+        </CustomInput>
+
         {/** Motivo de retiro */}
         <TextArea
           {...register("reason_for_withdrawal")}
-          labelText="Motivo de retiro"
+          labelText="Motivo de baja (Solo en caso de estar dado de baja)"
           placeholder="Motivo del retiro..."
           error={errors.reason_for_withdrawal?.message}
+          disabled={!isSelected}
         />
 
         {/** Fierro (select de ejemplo) */}
@@ -128,40 +166,18 @@ export const CattleForm = ({ action, cattle }: CattleFormProps) => {
         />
 
         {/** Raza (select de ejemplo) */}
-        <div className="col-span-full">
-          <label className="block mb-1">Raza</label>
-          <select
-            {...register("id_race")}
-            className="w-full p-2 border rounded"
-          >
-            <option value="">Seleccione una raza</option>
-            <option value="1">Raza 1</option>
-            <option value="2">Raza 2</option>
-          </select>
-          {errors.id_race && (
-            <span className="text-red-500 text-sm">
-              {errors.id_race.message}
-            </span>
-          )}
-        </div>
+        <RaceSelect
+          label="Selecione la raza"
+          {...register("id_race")}
+          error={errors.id_race?.message}
+        />
 
         {/** Terreno (select de ejemplo) */}
-        <div className="col-span-full">
-          <label className="block mb-1">Terreno</label>
-          <select
-            {...register("id_ground")}
-            className="w-full p-2 border rounded"
-          >
-            <option value="">Seleccione un terreno</option>
-            <option value="1">Terreno 1</option>
-            <option value="2">Terreno 2</option>
-          </select>
-          {errors.id_ground && (
-            <span className="text-red-500 text-sm">
-              {errors.id_ground.message}
-            </span>
-          )}
-        </div>
+        <GroundSelect
+          label="Seleciona el terreo"
+          {...register("id_ground")}
+          error={errors.id_ground?.message}
+        />
 
         {/** Botón de envío */}
         <Button
@@ -169,6 +185,7 @@ export const CattleForm = ({ action, cattle }: CattleFormProps) => {
           color="primary"
           variant="shadow"
           type="submit"
+          isLoading={isPending}
         >
           {action === "create" ? "Crear" : "Actualizar"}
         </Button>

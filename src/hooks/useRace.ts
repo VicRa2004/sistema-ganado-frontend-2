@@ -14,7 +14,7 @@ export const useRace = () => {
     const currentPage = page || 1;
 
     const { data, isError, isPending, error } = useQuery({
-      queryKey: ["cattle", page],
+      queryKey: ["race", page],
       queryFn: async () => {
         const res = await raceService.getAll(currentPage);
         return res;

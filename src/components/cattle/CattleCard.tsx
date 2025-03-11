@@ -12,6 +12,11 @@ export const CattleCard = ({
   handleDelete,
   handleUpdate,
 }: CattleCardProps) => {
+  if (!cattle.image) {
+    // Se pone una imagen por defecto
+    cattle.image = "img/default-image.png";
+  }
+
   return (
     <CardRegistro
       data={cattle}

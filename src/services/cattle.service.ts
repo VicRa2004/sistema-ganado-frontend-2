@@ -32,11 +32,19 @@ export class CattleService {
     return resp.data.data;
   }
 
-  async create({ cattle, image }: { cattle: CattleCreate; image: File }) {
+  async create({ cattle, image }: { cattle: CattleCreate; image?: File }) {
     const formData = new FormData();
 
-    formData.append("data", JSON.stringify(cattle));
-    formData.append("image", image);
+    const newData = {
+      ...cattle,
+      birthdate: cattle.birthdate.toISOString(),
+    };
+
+    formData.append("data", JSON.stringify(newData));
+
+    if (image) {
+      formData.append("image", image);
+    }
 
     await api.post("/cattle", formData, {
       headers: {
