@@ -3,18 +3,29 @@ import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
 import { useState } from "react";
 import { useCattle } from "../../hooks/useCattle";
 import { CattleCard } from "../../components/cattle/CattleCard";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { CattleType } from "../../types";
+import { useModal } from "../../hooks/useModal";
+import { GroundCreateModal } from "../../components/cattle/CatleCreateModal";
 
 export const Cattles = () => {
+  const { closeModal, modalType, openModal } = useModal();
   const [currentPage, setCurrentPage] = useState(0);
   const { useGetAllCattles } = useCattle();
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const { isPending, data } = useGetAllCattles(currentPage);
 
-  const handleCattle = (cattle: CattleType, type: "update" | "delete") => {};
+  const [cattle, setCattle] = useState<CattleType | null>(null);
+
+  const handleCattle = (
+    cattle: CattleType,
+    type: "update-cattle" | "delete-cattle"
+  ) => {
+    setCattle(cattle);
+    openModal(type);
+  };
 
   return (
     <div className="flex-grow h-full w-full flex flex-col py-4 px-16  justify-start items-center gap-4">
@@ -25,7 +36,7 @@ export const Cattles = () => {
           Crear un Registro de Ganado
         </h3>
         <Button
-          onPress={() => navigate("/app/cattles-create")}
+          onPress={() => openModal("create-cattle")}
           color="primary"
           variant="shadow"
           className="px-6 py-2 text-sm"
@@ -33,6 +44,11 @@ export const Cattles = () => {
           + Crear
         </Button>
       </div>
+
+      <GroundCreateModal
+        isOpen={modalType == "create-cattle"}
+        onClose={closeModal}
+      />
 
       <div className="w-full flex flex-col items-center gap-4">
         {isPending ? (
@@ -44,8 +60,8 @@ export const Cattles = () => {
               data.data.map((cattle) => (
                 <CattleCard
                   key={cattle.id_cattle}
-                  handleUpdate={() => handleCattle(cattle, "update")}
-                  handleDelete={() => handleCattle(cattle, "delete")}
+                  handleUpdate={() => handleCattle(cattle, "update-cattle")}
+                  handleDelete={() => handleCattle(cattle, "delete-cattle")}
                   cattle={cattle}
                 />
               ))}

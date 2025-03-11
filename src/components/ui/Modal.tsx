@@ -13,6 +13,17 @@ interface ModalProps {
   title: string;
   children: ReactNode;
   footer?: ReactNode;
+  size?:
+    | "xs"
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "full";
 }
 
 export const Modal = ({
@@ -21,9 +32,15 @@ export const Modal = ({
   title,
   children,
   footer,
+  size,
 }: ModalProps) => {
   return (
-    <NextUIModal scrollBehavior="outside" isOpen={isOpen} onClose={onClose}>
+    <NextUIModal
+      size={size}
+      scrollBehavior="outside"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <ModalContent>
         <ModalHeader>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>

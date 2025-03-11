@@ -28,6 +28,7 @@ import { useCattle } from "../../hooks/useCattle";
 interface CattleFormProps {
   cattle?: CattleType | null;
   action: "create" | "update";
+  handleClose: () => void;
 }
 
 export const CattleForm = ({ action, cattle }: CattleFormProps) => {
