@@ -93,6 +93,24 @@ export interface ResponseIronOneType {
   status: number;
 }
 
+// Razas
+
+export interface RaceType {
+  id_race: number;
+  name: string;
+  description: string;
+  image: string;
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ResponseRaceAllType {
+  data: RaceType[];
+  maxPages: number;
+  status: number;
+}
+
 // Ganados
 
 export interface CattleType {

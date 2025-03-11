@@ -1,6 +1,8 @@
-
 ## Cambios a hacer
 
-- Refactorizar la logica de los modales en la ventana de ground
-- Componetizar mas la App`
+- Componetizar mas la App
 - Agregar una paginación a todos
+- Corregir en el backend la parte de razas, para pasar un string enves de un ID
+- Terminar el formulario de Cattle
+- Terminar la logica de crear un ganado
+- Empezar con la logca de crias de ganado (corregir el backend para que cuando se agregue una madre se cree un registro de cria)
