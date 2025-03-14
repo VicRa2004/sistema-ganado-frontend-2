@@ -1,5 +1,7 @@
+import { Button } from "@nextui-org/react";
 import { GroundType } from "../../types";
 import { CardRegistro } from "../ui/CardRegistro";
+import { useNavigate } from "react-router-dom";
 
 interface GroundCardProps {
   ground: GroundType;
@@ -12,6 +14,8 @@ export const GroundCard = ({
   handleUpdate,
   handleDelete,
 }: GroundCardProps) => {
+  const navigate = useNavigate();
+
   if (!ground.image) {
     // Se pone una imagen por defecto
     ground.image = "img/default-image.png";
@@ -52,6 +56,16 @@ export const GroundCard = ({
           <p className="text-sm">
             {ground.address || "No hay dirección para este terreno"}
           </p>
+        </div>
+
+        <div>
+          <Button
+            onPress={() => navigate(`/app/grounds/cattles/${ground.id_ground}`)}
+            variant="bordered"
+            color="primary"
+          >
+            Ver detalles del Terreno
+          </Button>
         </div>
       </div>
     </CardRegistro>

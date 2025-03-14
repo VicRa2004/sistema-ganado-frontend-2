@@ -31,7 +31,11 @@ interface CattleFormProps {
   handleClose: () => void;
 }
 
-export const CattleForm = ({ action, cattle }: CattleFormProps) => {
+export const CattleForm = ({
+  action,
+  cattle,
+  handleClose,
+}: CattleFormProps) => {
   const {
     register,
     handleSubmit,
@@ -40,7 +44,7 @@ export const CattleForm = ({ action, cattle }: CattleFormProps) => {
     resolver: zodResolver(cattleSchema),
     defaultValues: {
       ...cattle,
-      status: cattle?.status == 1,
+      status: !(cattle?.status == 1), // Para que sea false si es 1 y true si es 0
     },
   });
 
@@ -49,19 +53,25 @@ export const CattleForm = ({ action, cattle }: CattleFormProps) => {
 
   const [isSelected, setIsSelected] = useState(false);
 
-  //console.log(watch());
-
   const onSubmit = async (data: CattleFormInputs) => {
+    // ! Si el estado es falso, entonces el status es 1, de lo contrario es 0
+    // Esto porque 1 es activo y 0 es inactivo, se meneja
+    // asi por la forma de usar el switch en el formulario
+    const status = !data.status ? 1 : 0;
+
     const newData = {
       ...data,
-      status: data.status ? 1 : 0,
+      status,
     };
 
-    console.log(data);
+    console.log(status);
+    console.log(newData);
 
     if (action == "create") {
       mutateAsync({
         data: newData,
+      }).finally(() => {
+        handleClose();
       });
     }
   };

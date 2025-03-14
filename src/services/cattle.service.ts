@@ -22,6 +22,32 @@ export class CattleService {
     return resp.data;
   }
 
+  async getAllParent(page: number = 1, id: number) {
+    const resp = await api.get<ResponseCattleAllType>(
+      `/cattle/parent/${id}?page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    );
+
+    return resp.data;
+  }
+
+  async getAllGround(page: number = 1, id: number) {
+    const resp = await api.get<ResponseCattleAllType>(
+      `/cattle/ground/${id}?page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    );
+
+    return resp.data;
+  }
+
   async getOne(id: number) {
     const resp = await api.get<ResponseCattleOneType>(`/cattle/${id}`, {
       headers: {

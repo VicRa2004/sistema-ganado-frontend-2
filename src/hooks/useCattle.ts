@@ -32,6 +32,30 @@ export const useCattle = () => {
     return { data, isPending };
   };
 
+  const useGetAllCattlesGround = ({
+    id,
+    page,
+  }: {
+    id: number;
+    page?: number;
+  }) => {
+    const currentPage = page || 1;
+
+    const { data, isError, isPending, error } = useQuery({
+      queryKey: ["cattle", page],
+      queryFn: async () => {
+        const res = await cattleService.getAllGround(currentPage, id);
+        return res;
+      },
+    });
+
+    if (isError) {
+      handleError(error);
+    }
+
+    return { data, isPending };
+  };
+
   const useCreateCattle = () => {
     const { data, isPending, mutateAsync } = useMutation({
       mutationFn: async ({
@@ -52,5 +76,5 @@ export const useCattle = () => {
     return { data, isPending, mutateAsync };
   };
 
-  return { useGetAllCattles, useCreateCattle };
+  return { useGetAllCattles, useCreateCattle, useGetAllCattlesGround };
 };

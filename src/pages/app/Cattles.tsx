@@ -6,7 +6,8 @@ import { CattleCard } from "../../components/cattle/CattleCard";
 //import { useNavigate } from "react-router-dom";
 import { CattleType } from "../../types";
 import { useModal } from "../../hooks/useModal";
-import { GroundCreateModal } from "../../components/cattle/CatleCreateModal";
+import { CattleCreateModal } from "../../components/cattle/CattleCreateModal";
+import { CattleUpdateModal } from "../../components/cattle/CattleUpdateModal";
 
 export const Cattles = () => {
   const { closeModal, modalType, openModal } = useModal();
@@ -45,9 +46,15 @@ export const Cattles = () => {
         </Button>
       </div>
 
-      <GroundCreateModal
+      <CattleCreateModal
         isOpen={modalType == "create-cattle"}
         onClose={closeModal}
+      />
+
+      <CattleUpdateModal
+        isOpen={modalType == "update-cattle"}
+        onClose={closeModal}
+        cattle={cattle}
       />
 
       <div className="w-full flex flex-col items-center gap-4">

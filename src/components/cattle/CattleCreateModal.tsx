@@ -6,12 +6,12 @@ interface CattleCreateModalProps {
   onClose: () => void;
 }
 
-export const GroundCreateModal = ({
+export const CattleCreateModal = ({
   isOpen,
   onClose,
 }: CattleCreateModalProps) => {
   return (
-    <Modal size="4xl" isOpen={isOpen} onClose={onClose} title="Crear Terreno">
+    <Modal size="4xl" isOpen={isOpen} onClose={onClose} title="Crear Ganado">
       <CattleForm action="create" handleClose={onClose} />
     </Modal>
   );

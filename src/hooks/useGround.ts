@@ -27,17 +27,19 @@ export const useGround = () => {
   });
 
   const useGetAllGround = (page?: number) => {
-    return useQuery<ResponseGroundAllType>({
+    const { data, isPending, error } = useQuery<ResponseGroundAllType>({
       queryKey: ["grounds", page],
       queryFn: async () => {
         const res = await groundService.getGrouns(page);
         return res;
       },
     });
+
+    return { data, isPending, error };
   };
 
   const useGetOneGround = (id: number) => {
-    return useQuery<GroundType>({
+    const { data, isPending } = useQuery<GroundType>({
       queryKey: ["ground", id],
       refetchOnMount: true,
       queryFn: async () => {
@@ -45,6 +47,8 @@ export const useGround = () => {
         return res;
       },
     });
+
+    return { data, isPending };
   };
 
   // Mutación para crear un terreno

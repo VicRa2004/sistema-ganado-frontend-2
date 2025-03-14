@@ -24,6 +24,35 @@ export const CattleCard = ({
       handleDelete={handleDelete}
       title={`Ganado - ${cattle.lotNumber}`}
       image={cattle.image}
-    ></CardRegistro>
+    >
+      <div className="grid gap-3 text-gray-700 dark:text-gray-300 mt-3">
+        <div>
+          <h3 className="text-lg font-semibold">Descripción</h3>
+          <p className="text-sm">{cattle.description}</p>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold">Aretes</h3>
+
+          <ul className="text-sm">
+            <li>
+              <span className="font-semibold">Numero de Lote: </span>
+              {cattle.lotNumber}
+            </li>
+            <li>
+              <span className="font-semibold">Numero de registro: </span>
+              {cattle.registrationNumber}
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-sm">
+            <span className="font-semibold">Estatus: </span>
+            {cattle.status == 1 ? "Activo" : "Inactivo"}
+          </p>
+        </div>
+      </div>
+    </CardRegistro>
   );
 };
