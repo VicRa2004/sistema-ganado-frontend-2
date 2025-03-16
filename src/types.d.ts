@@ -122,7 +122,7 @@ export interface CattleType {
   registrationNumber: string; // Arete Numero grande
   lotNumber: string; // Arete numero pequeño
   color: string;
-  birthdate: Date;
+  birthdate: string;
   observations?: string;
   image: string;
   reason_for_withdrawal?: string; // Motivo de baja

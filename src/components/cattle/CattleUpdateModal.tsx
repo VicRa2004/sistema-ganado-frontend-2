@@ -20,7 +20,9 @@ export const CattleUpdateModal = ({
       onClose={onClose}
       title="Actualizar Ganado"
     >
-      <CattleForm cattle={cattle} action="update" handleClose={onClose} />
+      {cattle && (
+        <CattleForm cattle={cattle} action="update" handleClose={onClose} />
+      )}
     </Modal>
   );
 };

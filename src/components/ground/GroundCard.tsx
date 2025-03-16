@@ -18,7 +18,7 @@ export const GroundCard = ({
 
   if (!ground.image) {
     // Se pone una imagen por defecto
-    ground.image = "img/default-image.png";
+    ground.image = "img/default-image-2.png";
   }
 
   return (

@@ -9,7 +9,7 @@ import { useIron } from "../../hooks/useIron";
 const ironSchema = z.object({
   name: z.string().min(1, "El nombre es obligatorio"),
   image: z
-    .any()
+    .any({ required_error: "La imagen es requerida" })
     .optional()
     .refine(
       (files) =>

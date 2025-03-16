@@ -16,8 +16,8 @@ import { GroundSelect } from "./select/GroundSelect";
 
 import { Switch } from "@nextui-org/react";
 import { CustomInput } from "../ui/CustomInput";
-import { useState } from "react";
 import { useCattle } from "../../hooks/useCattle";
+import { useState } from "react";
 
 /**
  * Falta:
@@ -36,6 +36,8 @@ export const CattleForm = ({
   cattle,
   handleClose,
 }: CattleFormProps) => {
+  console.log(cattle);
+
   const {
     register,
     handleSubmit,
@@ -44,12 +46,16 @@ export const CattleForm = ({
     resolver: zodResolver(cattleSchema),
     defaultValues: {
       ...cattle,
+      image: [],
+      birthdate: cattle?.birthdate.split("T")[0],
       status: !(cattle?.status == 1), // Para que sea false si es 1 y true si es 0
     },
   });
 
-  const { useCreateCattle } = useCattle();
+  const { useCreateCattle, useUpdateCattle } = useCattle();
   const { isPending, mutateAsync } = useCreateCattle();
+  const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } =
+    useUpdateCattle();
 
   const [isSelected, setIsSelected] = useState(false);
 
@@ -64,15 +70,25 @@ export const CattleForm = ({
       status,
     };
 
-    console.log(status);
-    console.log(newData);
-
     if (action == "create") {
       mutateAsync({
         data: newData,
+        image: data.image[0],
       }).finally(() => {
         handleClose();
       });
+    }
+
+    if (action == "update") {
+      if (cattle) {
+        mutateAsyncUpdate({
+          id: cattle.id_cattle,
+          cattle: newData,
+          image: data.image[0],
+        }).finally(() => {
+          handleClose();
+        });
+      }
     }
   };
 
@@ -110,6 +126,8 @@ export const CattleForm = ({
           <option value="male">Masculino</option>
           <option value="female">Femenino</option>
         </Select>
+
+        <Input type="file" labelText="Imagen" {...register("image")} />
 
         {/** Número de registro */}
 
@@ -196,7 +214,7 @@ export const CattleForm = ({
           color="primary"
           variant="shadow"
           type="submit"
-          isLoading={isPending}
+          isLoading={isPending || isPendingUpdate}
         >
           {action === "create" ? "Crear" : "Actualizar"}
         </Button>

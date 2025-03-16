@@ -14,9 +14,6 @@ export const CattleSelect = forwardRef<HTMLSelectElement, CattleSelectProps>(
 
     return (
       <Select ref={ref} labelText={label} error={error} {...rest}>
-        <option value="" disabled>
-          Seleccione una opción
-        </option>
         <option value="-1">Ninguno</option>
         {data?.data.map((cattle) => (
           <option key={cattle.id_cattle} value={cattle.id_cattle}>

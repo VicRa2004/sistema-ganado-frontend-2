@@ -18,7 +18,7 @@ export const useCattle = () => {
     const currentPage = page || 1;
 
     const { data, isError, isPending, error } = useQuery({
-      queryKey: ["cattle", page],
+      queryKey: ["cattles", page],
       queryFn: async () => {
         const res = await cattleService.getAll(currentPage);
         return res;
@@ -42,7 +42,7 @@ export const useCattle = () => {
     const currentPage = page || 1;
 
     const { data, isError, isPending, error } = useQuery({
-      queryKey: ["cattle", page],
+      queryKey: ["cattles", page],
       queryFn: async () => {
         const res = await cattleService.getAllGround(currentPage, id);
         return res;
@@ -69,12 +69,39 @@ export const useCattle = () => {
 
         console.log(res);
       },
-      onSuccess: () => queryClient.invalidateQueries({ queryKey: ["irons"] }),
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cattles"] }),
       onError: (err) => handleError(err),
     });
 
     return { data, isPending, mutateAsync };
   };
 
-  return { useGetAllCattles, useCreateCattle, useGetAllCattlesGround };
+  const useUpdateCattle = () => {
+    const { data, isPending, mutateAsync } = useMutation({
+      mutationFn: async ({
+        id,
+        cattle,
+        image,
+      }: {
+        id: number;
+        cattle: CattleCreate;
+        image?: File;
+      }) => {
+        const res = await cattleService.update(id, { cattle, image });
+
+        console.log(res);
+      },
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cattles"] }),
+      onError: (err) => handleError(err),
+    });
+
+    return { data, isPending, mutateAsync };
+  };
+
+  return {
+    useGetAllCattles,
+    useCreateCattle,
+    useGetAllCattlesGround,
+    useUpdateCattle,
+  };
 };

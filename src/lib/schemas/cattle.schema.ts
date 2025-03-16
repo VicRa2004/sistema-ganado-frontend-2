@@ -35,6 +35,26 @@ export const cattleSchema = z.object({
 
   gender: z.enum(["male", "female"]).optional().default("male"),
 
+  image: z
+    .any()
+    .optional()
+    .refine(
+      (files) => {
+        // Si no hay archivos o no se seleccionó ninguno, es válido
+        if (!files || files.length === 0) return true;
+
+        // Verifica que el primer archivo sea una imagen
+        const file = files[0];
+
+        console.log(files);
+        return file && file.type.startsWith("image/");
+      },
+      {
+        message:
+          "El archivo debe ser una imagen válida (por ejemplo, .jpg, .png)",
+      }
+    ),
+
   registrationNumber: z
     .string({
       required_error: "El número de registro es requerido",

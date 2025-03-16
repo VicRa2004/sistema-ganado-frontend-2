@@ -7,7 +7,7 @@ interface CardProps {
 
 export const Card = ({ title, image, className, children }: CardProps) => {
   if (!image) {
-    image = "img/default-image.png";
+    image = "img/default-image-2.png";
   }
 
   return (

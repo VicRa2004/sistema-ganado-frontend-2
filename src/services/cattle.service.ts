@@ -82,12 +82,15 @@ export class CattleService {
 
   async update(
     id: number,
-    { cattle, image }: { cattle: CattleCreate; image: File }
+    { cattle, image }: { cattle: CattleCreate; image?: File }
   ) {
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(cattle));
-    formData.append("image", image);
+
+    if (image) {
+      formData.append("image", image);
+    }
 
     await api.put(`/cattle/${id}`, formData, {
       headers: {
