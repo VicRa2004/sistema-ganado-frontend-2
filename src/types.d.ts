@@ -131,6 +131,9 @@ export interface CattleType {
   id_race: number;
   id_user: number;
   id_ground: number;
+  iron: IronType,
+  race: RaceType,
+  ground: GroundType
 }
 
 export type CattleCreate = Omit<

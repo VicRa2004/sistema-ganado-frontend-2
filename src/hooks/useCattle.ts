@@ -14,6 +14,22 @@ export const useCattle = () => {
 
   const queryClient = useQueryClient();
 
+  const useGetCattle = (id: number) => {
+    const { data, isError, isPending, error } = useQuery({
+      queryKey: ["cattle", id],
+      queryFn: async () => {
+        const res = await cattleService.getOne(id);
+        return res;
+      },
+    });
+
+    if (isError) {
+      handleError(error);
+    }
+
+    return { data, isPending };
+  }
+
   const useGetAllCattles = (
     page?: number,
     query?: {
@@ -108,6 +124,7 @@ export const useCattle = () => {
 
   return {
     useGetAllCattles,
+    useGetCattle,
     useCreateCattle,
     useGetAllCattlesGround,
     useUpdateCattle,

@@ -7,6 +7,7 @@ interface CardRegistroProps {
   image: string;
   handleUpdate: (data: any) => void;
   handleDelete: (data: any) => void;
+  ExtraButton?: React.ReactNode;
 }
 
 export const CardRegistro = ({
@@ -16,6 +17,7 @@ export const CardRegistro = ({
   image,
   handleUpdate,
   handleDelete,
+  ExtraButton
 }: CardRegistroProps) => {
   return (
     <div className="p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 transition-colors">
@@ -40,6 +42,9 @@ export const CardRegistro = ({
 
       {/* Botones de acción */}
       <div className="flex justify-end gap-3 mt-6">
+        {
+          ExtraButton ? ExtraButton : null
+        }
         <Button
           onPress={() => handleUpdate(data)}
           className="bg-primary text-white hover:bg-primary-700"
