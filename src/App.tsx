@@ -40,7 +40,7 @@ export const App = () => {
                 <Route index element={<AppMain />}></Route>
                 <Route path="grounds" element={<Grounds />}></Route>
                 <Route
-                  path="grounds/cattles/:id"
+                  path="grounds/:id"
                   element={<GroundCattle />}
                 ></Route>
                 <Route path="irons" element={<Irons />}></Route>

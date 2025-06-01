@@ -60,7 +60,7 @@ const Cattle = () => {
       {/* Datos relacionados */}
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Hierro */}
-        <Card title="Hierro">
+        <Card title="Fierro">
           <img
             src={cattle.iron.image || DEFAULT_IMAGE}
             alt="Hierro"
@@ -94,7 +94,7 @@ const Cattle = () => {
           </p>
           <p className="text-sm text-gray-600 dark:text-gray-400">{cattle.ground.address}</p>
           <Link
-            to={`/grounds/${cattle.id_ground}`}
+            to={`/app/grounds/${cattle.id_ground}`}
             className="mt-3 block text-center bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition-all text-sm font-medium"
           >
             Ver terreno

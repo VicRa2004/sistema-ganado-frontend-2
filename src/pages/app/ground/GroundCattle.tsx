@@ -1,111 +1,117 @@
+import { useState } from "react";
 import { useCattle } from "../../../hooks/useCattle";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useGround } from "../../../hooks/useGround";
-import { Card } from "../../../components/ui/Card";
+import { Button } from "@nextui-org/react";
 
 export const GroundCattle = () => {
   const params = useParams<{ id: string }>();
   const { useGetAllCattlesGround } = useCattle();
   const { useGetOneGround } = useGround();
+  const [showCattles, setShowCattles] = useState(true);
 
-  if (!params.id) {
-    throw new Error("Fallo");
-  }
+  if (!params.id) throw new Error("Fallo");
 
   const id = parseInt(params.id);
-
   const { data: cattles, isPending } = useGetAllCattlesGround({ id });
   const { data: ground } = useGetOneGround(id);
 
-  console.log(cattles);
-  console.log(ground);
-
   return (
-    <div className="flex flex-col gap-4 justify-center items-center p-8">
+    <div className="flex flex-col gap-6 justify-center items-center p-8 w-full">
       <h1 className="text-center text-3xl text-primary font-semibold">
         Detalles del Terreno
       </h1>
 
       {ground ? (
-        <Card
-          image={ground?.image}
-          className=""
-          title={ground?.name ?? "Cargando"}
-        >
-          <div className="flex flex-col gap-2">
-            <div>
-              <h3 className="text-lg font-semibold">Notas del Terreno</h3>
-              <p className="text-sm">
-                {ground.notes || "No hay notas para este terreno"}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold">Medidas</h3>
-              <ul className="text-sm">
-                <li>
-                  <span className="font-semibold">Alto: </span>
-                  {ground.length}
-                </li>
-                <li>
-                  <span className="font-semibold">Ancho: </span>
-                  {ground.width}
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold">Dirección</h3>
-              <p className="text-sm">
-                {ground.address || "No hay dirección para este terreno"}
-              </p>
+        <div className="w-full max-w-4xl bg-white shadow-lg rounded-xl overflow-hidden border">
+          <div className="flex flex-col md:flex-row">
+            {ground.image && (
+              <img
+                src={ground.image}
+                alt={ground.name}
+                className="h-64 w-full md:w-1/2 object-cover"
+              />
+            )}
+            <div className="p-6 flex-1">
+              <h2 className="text-2xl font-bold mb-4 text-primary">
+                {ground.name}
+              </h2>
+              <div className="text-sm space-y-2">
+                <div>
+                  <h3 className="font-semibold">Notas:</h3>
+                  <p>{ground.notes || "No hay notas"}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold">Medidas:</h3>
+                  <p>Alto: {ground.length} | Ancho: {ground.width}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold">Dirección:</h3>
+                  <p>{ground.address || "No hay dirección"}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </Card>
-      ) : (
-        "Cargando"
-      )}
-
-      <h2 className="text-2xl text-primary font-semibold">
-        Ganados dentro del terreno
-      </h2>
-
-      {isPending && (
-        <div className="animate-pulse bg-gray-300 w-full h-80 rounded-lg"></div>
-      )}
-
-      {cattles?.data.length === 0 && (
-        <div className="text-center text-lg font-semibold">
-          No hay ganados en este terreno
         </div>
+      ) : (
+        <div className="text-gray-500">Cargando terreno...</div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {cattles?.data?.map((cattle) => (
-          <Card
-            key={cattle.id_cattle}
-            title={cattle.description}
-            image={cattle.image}
-            className=""
-          >
-            <div className="flex flex-col gap-2">
-              <div>
-                <h3 className="text-lg font-semibold">Observaciones</h3>
-                <p className="text-sm">{cattle.observations}</p>
-              </div>
+      <div className="flex flex-col gap-4 items-center w-full max-w-6xl mt-6">
+        <Button onClick={() => setShowCattles(!showCattles)} className="bg-primary text-white">
+          {showCattles ? "Ocultar Ganados" : "Ver Ganados"}
+        </Button>
 
-              <div>
-                <h3 className="text-lg font-semibold">Genero</h3>
-                <p className="text-sm">{cattle.gender}</p>
-              </div>
+        {showCattles && (
+          <>
+            <h2 className="text-2xl text-primary font-semibold">
+              Ganados dentro del terreno
+            </h2>
 
-              <div>
-                <h3 className="text-lg font-semibold">Estatus</h3>
-                <p className="text-sm">{cattle.status}</p>
+            {isPending ? (
+              <div className="animate-pulse bg-gray-300 w-full h-40 rounded-lg" />
+            ) : cattles?.data.length === 0 ? (
+              <div className="text-center text-lg font-semibold">
+                No hay ganados en este terreno
               </div>
-            </div>
-          </Card>
-        ))}
+            ) : (
+              <div className="overflow-x-auto w-full shadow-lg rounded-lg border">
+                <table className="min-w-full text-sm bg-white">
+                  <thead className="bg-primary text-white">
+                    <tr>
+                      <th className="py-3 px-4 text-left">Descripción</th>
+                      <th className="py-3 px-4 text-left">Observaciones</th>
+                      <th className="py-3 px-4 text-left">Género</th>
+                      <th className="py-3 px-4 text-left">Estatus</th>
+                      <th className="py-3 px-4 text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cattles?.data.map((cattle) => (
+                      <tr
+                        key={cattle.id_cattle}
+                        className="border-b hover:bg-gray-100 transition-colors"
+                      >
+                        <td className="py-2 px-4">{cattle.description}</td>
+                        <td className="py-2 px-4">{cattle.observations}</td>
+                        <td className="py-2 px-4">{cattle.gender}</td>
+                        <td className="py-2 px-4">{cattle.status}</td>
+                        <td className="py-2 px-4 text-center">
+                          <Link
+                            to={`/app/cattles/${cattle.id_cattle}`}
+                            className="text-sm bg-primary text-white px-3 py-1 rounded hover:bg-primary-600 transition"
+                          >
+                            Ver ganado
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

@@ -28,6 +28,13 @@ export const GroundCard = ({
       data={ground}
       handleDelete={handleDelete}
       handleUpdate={handleUpdate}
+      ExtraButton={<Button
+            onPress={() => navigate(`/app/grounds/${ground.id_ground}`)}
+            variant="bordered"
+            color="primary"
+          >
+            Ver detalles
+          </Button>}
     >
       <div className="grid gap-3 text-gray-700 dark:text-gray-300 mt-3">
         <div>
@@ -56,16 +63,6 @@ export const GroundCard = ({
           <p className="text-sm">
             {ground.address || "No hay dirección para este terreno"}
           </p>
-        </div>
-
-        <div>
-          <Button
-            onPress={() => navigate(`/app/grounds/cattles/${ground.id_ground}`)}
-            variant="bordered"
-            color="primary"
-          >
-            Ver detalles del Terreno
-          </Button>
         </div>
       </div>
     </CardRegistro>
