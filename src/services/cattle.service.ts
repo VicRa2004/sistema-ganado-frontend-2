@@ -12,11 +12,20 @@ export class CattleService {
     this.token = token;
   }
 
-  async getAll(page: number = 1) {
+  async getAll(
+    page: number = 1,
+    query?: {
+      gender?: string;
+      status?: number;
+      id_iron?: number;
+      id_race?: number;
+    }
+  ) {
     const resp = await api.get<ResponseCattleAllType>(`/cattle?page=${page}`, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
+      params: query,
     });
 
     return resp.data;
@@ -63,7 +72,6 @@ export class CattleService {
 
     const newData = {
       ...cattle,
-      birthdate: cattle.birthdate.toISOString(),
     };
 
     formData.append("data", JSON.stringify(newData));

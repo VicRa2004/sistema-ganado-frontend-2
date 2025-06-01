@@ -52,6 +52,13 @@ export const CattleCard = ({
             {cattle.status == 1 ? "Activo" : "Inactivo"}
           </p>
         </div>
+
+        <div>
+          <p className="text-sm">
+            <span className="font-semibold">Genero: </span>
+            {cattle.gender == "male" ? "Macho" : "Hembra"}
+          </p>
+        </div>
       </div>
     </CardRegistro>
   );

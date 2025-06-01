@@ -67,6 +67,7 @@ export const CattleForm = ({
 
     const newData = {
       ...data,
+      birthdate: new Date(data.birthdate).toISOString(),
       status,
     };
 
@@ -109,6 +110,7 @@ export const CattleForm = ({
 
         {/** Padre (select de ejemplo) */}
         <CattleSelect
+          gender="male"
           label="Selecione el padre"
           error={errors.father?.message}
           {...register("father")}
@@ -116,6 +118,7 @@ export const CattleForm = ({
 
         {/** Madre (select de ejemplo) */}
         <CattleSelect
+          gender="female"
           label="Selecione la madre"
           error={errors.mother?.message}
           {...register("mother")}
