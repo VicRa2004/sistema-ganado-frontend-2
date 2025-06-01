@@ -14,7 +14,7 @@ export const CattleCard = ({
 }: CattleCardProps) => {
   if (!cattle.image) {
     // Se pone una imagen por defecto
-    cattle.image = "img/default-image-2.png";
+    cattle.image = "img/default-image-3.png";
   }
 
   return (
