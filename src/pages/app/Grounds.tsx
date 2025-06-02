@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useError } from "../../hooks/useError";
 import { GroundCard } from "../../components/ground/GroundCard";
 import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
-import { Button, Pagination } from "@nextui-org/react";
+import { Button, Pagination } from "@heroui/react";
 import { GroundType } from "../../types";
 import { GroundCreateModal } from "../../components/ground/GroundCreateModal";
 import { GroundUpdateModal } from "../../components/ground/GroundUpdateModal";
@@ -13,7 +13,7 @@ import { useModal } from "../../hooks/useModal";
 export const Grounds = () => {
   const { handleError } = useError();
   const { useGetAllGround } = useGround();
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const { isPending, error, data } = useGetAllGround(currentPage);
 
   const [ground, setGround] = useState<GroundType | null>(null);
@@ -90,11 +90,14 @@ export const Grounds = () => {
           </div>
         )}
 
-        <Pagination
-          onChange={setCurrentPage}
-          total={data?.maxPages || 1}
-          page={currentPage}
-        />
+        {!isPending && data && (
+          <Pagination
+            onChange={setCurrentPage}
+            total={data?.maxPages || 1}
+            page={currentPage}
+            showControls
+          />
+        )}
       </div>
     </div>
   );

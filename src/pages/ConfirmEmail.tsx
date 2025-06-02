@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useEffect } from "react";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@heroui/react";
 
 export const ConfirmEmail = () => {
    const { token } = useParams<{ token: string }>();

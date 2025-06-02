@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody, Button, Link } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, Button, Link } from "@heroui/react";
 import {
    MilkIcon as Cow,
    PiggyBank,

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { NavLink } from "./NavLink";
 import { useAuth } from "../../hooks/useAuth";
 import { ProfileOptions } from "./ProfileOptions";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { AppOptions } from "./AppOptions";
 
 const links = [

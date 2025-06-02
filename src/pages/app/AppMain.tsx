@@ -1,4 +1,4 @@
-import { Link } from "@nextui-org/react";
+import { Link } from "react-router-dom";
 
 const modules = [
   {
@@ -38,7 +38,7 @@ export const AppMain = () => {
         {modules.map((mod) => (
           <Link
             key={mod.title}
-            href={mod.path}
+            to={mod.path}
             className="group block rounded-xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200"
           >
             <div className="relative h-44 overflow-hidden">

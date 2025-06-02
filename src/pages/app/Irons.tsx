@@ -1,4 +1,4 @@
-import { Button, Pagination } from "@nextui-org/react";
+import { Button, Pagination } from "@heroui/react";
 import { IronModal } from "../../components/iron/IronCreateModal";
 import { useModal } from "../../hooks/useModal";
 import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
@@ -77,11 +77,14 @@ export const Irons = () => {
         )}
       </div>
 
-      <Pagination
-        total={data?.maxPages || 1}
-        page={currentPage}
-        onChange={setCurrentPage}
-      />
+      {!isPending && data && (
+        <Pagination
+          onChange={setCurrentPage}
+          total={data?.maxPages || 1}
+          page={currentPage}
+          showControls
+        />
+      )}
     </div>
   );
 };

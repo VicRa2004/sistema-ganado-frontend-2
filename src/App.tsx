@@ -1,4 +1,4 @@
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { Routes, Route, useNavigate, useHref } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Error404 } from "./pages/Error404";
@@ -27,7 +27,7 @@ export const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NextUIProvider navigate={navigate} useHref={useHref}>
+      <HeroUIProvider navigate={navigate} useHref={useHref}>
         <Routes>
           <Route path="/" element={<HomeLayout />}>
             <Route index element={<Home />}></Route>
@@ -51,7 +51,7 @@ export const App = () => {
             <Route path="*" element={<Error404 />}></Route>
           </Route>
         </Routes>
-      </NextUIProvider>
+      </HeroUIProvider>
     </QueryClientProvider>
   );
 };

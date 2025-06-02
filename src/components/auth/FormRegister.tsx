@@ -1,7 +1,7 @@
 import { Input } from "../ui/Input";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { useRegister } from "../../hooks/auth/useRegister";
 import { FormValues, formSchema } from "../../lib/schemas/register.schema";
 

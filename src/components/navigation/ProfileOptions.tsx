@@ -3,9 +3,9 @@ import {
    DropdownTrigger,
    DropdownMenu,
    DropdownItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Sun, Moon, Cable, CircleUserRound, LogOut } from "lucide-react";
-import { useTheme } from "@nextui-org/use-theme";
+import { useTheme } from "@heroui/use-theme";
 import { useAuth } from "../../hooks/useAuth";
 
 export function ProfileOptions() {

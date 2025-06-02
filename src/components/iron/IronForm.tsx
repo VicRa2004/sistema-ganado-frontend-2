@@ -1,7 +1,7 @@
 import { IronType } from "../../types";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { Input } from "../ui/Input";
 import { useForm } from "react-hook-form";
 import { useIron } from "../../hooks/useIron";

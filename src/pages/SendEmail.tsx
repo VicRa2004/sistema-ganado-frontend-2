@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useEffect } from "react";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 export const SendEmail = () => {
    const { email } = useParams<{ email: string }>();
    console.log(email);

@@ -7,7 +7,7 @@ import {
    CardFooter,
    CardHeader,
    Link,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useRegister } from "../hooks/auth/useRegister";
 import { Input } from "../components/ui/Input";
 import { FormValues, formSchema } from "../lib/schemas/register.schema";

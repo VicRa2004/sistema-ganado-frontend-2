@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../components/ui/Input";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { GroundType } from "../../types";
 import { useGround } from "../../hooks/useGround";
 

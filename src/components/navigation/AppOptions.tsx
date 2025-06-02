@@ -3,7 +3,7 @@ import {
    DropdownTrigger,
    DropdownMenu,
    DropdownItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ClipboardList } from "lucide-react";
 
 export function AppOptions() {

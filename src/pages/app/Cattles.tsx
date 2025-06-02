@@ -1,4 +1,4 @@
-import { Button, Pagination } from "@nextui-org/react";
+import { Button, Pagination } from "@heroui/react";
 import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
 import { useState } from "react";
 import { useCattle } from "../../hooks/useCattle";
@@ -76,11 +76,14 @@ export const Cattles = () => {
         )}
       </div>
 
-      <Pagination
-        total={data?.maxPages || 1}
-        page={currentPage}
-        onChange={setCurrentPage}
-      />
+      {!isPending && data && (
+        <Pagination
+          onChange={setCurrentPage}
+          total={data?.maxPages || 1}
+          page={currentPage}
+          showControls
+        />
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { CattleType } from "../../types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/Input";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { TextArea } from "../ui/TextArea";
 import { CattleSelect } from "./select/CattleSelect";
 import {
@@ -14,7 +14,7 @@ import { Select } from "../ui/Select";
 import { RaceSelect } from "./select/RaceSelect";
 import { GroundSelect } from "./select/GroundSelect";
 
-import { Switch } from "@nextui-org/react";
+import { Switch } from "@heroui/react";
 import { CustomInput } from "../ui/CustomInput";
 import { useCattle } from "../../hooks/useCattle";
 import { useState } from "react";

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCattle } from "../../../hooks/useCattle";
 import { useParams, Link } from "react-router-dom";
 import { useGround } from "../../../hooks/useGround";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 
 export const GroundCattle = () => {
   const params = useParams<{ id: string }>();

@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { Modal } from "../ui/Modal";
 import { useGround } from "../../hooks/useGround";
 import { GroundType } from "../../types";

@@ -4,7 +4,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ReactNode } from "react";
 
 interface ModalProps {
