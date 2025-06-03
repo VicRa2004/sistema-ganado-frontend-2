@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useCattle } from "../../../hooks/useCattle";
+import { Button } from "@heroui/react";
 
 const DEFAULT_IMAGE = "img/default-image-3.png";
 
@@ -21,6 +22,10 @@ const Cattle = () => {
   if (!cattle) {
     return <div className="p-6 text-center text-gray-500 text-lg font-medium">No se encontró el ganado.</div>;
   }
+
+  const URL = `/app/cattles/${cattle.father}`
+
+  console.log(URL);
 
   return (
     <div className="max-w-5xl mx-auto mt-10 p-6 rounded-3xl shadow-lg bg-white dark:bg-neutral-900 transition-all duration-300">
@@ -54,6 +59,11 @@ const Cattle = () => {
           {cattle.reason_for_withdrawal && (
             <Detail label="Motivo de baja" value={cattle.reason_for_withdrawal} />
           )}
+          {
+            cattle.father && (
+              <Button to={URL} as={Link} color="primary" variant="shadow">Ver padre {cattle.father}</Button>
+            )
+          }
         </div>
       </div>
 

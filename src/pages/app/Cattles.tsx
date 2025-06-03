@@ -3,7 +3,6 @@ import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
 import { useState } from "react";
 import { useCattle } from "../../hooks/useCattle";
 import { CattleCard } from "../../components/cattle/CattleCard";
-//import { useNavigate } from "react-router-dom";
 import { CattleType } from "../../types";
 import { useModal } from "../../hooks/useModal";
 import { CattleCreateModal } from "../../components/cattle/CattleCreateModal";

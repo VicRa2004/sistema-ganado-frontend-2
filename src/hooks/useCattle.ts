@@ -41,7 +41,7 @@ export const useCattle = () => {
   ) => {
     const currentPage = page || 1;
 
-    const { data, isError, isPending, error } = useQuery({
+    const { data, isError, isPending, error, } = useQuery({
       queryKey: ["cattles", page, query],
       queryFn: async () => {
         const res = await cattleService.getAll(currentPage, query);
@@ -115,8 +115,11 @@ export const useCattle = () => {
 
         console.log(res);
       },
-      onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cattles"] }),
-      onError: (err) => handleError(err),
+      onSuccess: () => {queryClient.invalidateQueries({ queryKey: ["cattles"] })},
+      onError: (err) => {
+        console.log(err);
+        handleError(err);
+      },
     });
 
     return { data, isPending, mutateAsync };

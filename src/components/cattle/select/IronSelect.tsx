@@ -10,19 +10,25 @@ interface IronSelectProps {
 export const IronSelect = forwardRef<HTMLSelectElement, IronSelectProps>(
   ({ label, error, ...rest }, ref) => {
     const { useGetAllIrons } = useIron();
-    const { data } = useGetAllIrons();
+    const { data, isPending } = useGetAllIrons();
 
     return (
-      <Select ref={ref} labelText={label} error={error} {...rest}>
-        <option value="" disabled>
-          Seleccione un fierro
-        </option>
-        {data?.data.map((iron) => (
-          <option key={iron.id_iron} value={iron.id_iron}>
-            {iron.name}
-          </option>
-        ))}
-      </Select>
+      <>
+        {isPending ? (
+          <h1>Cargando</h1>
+        ) : (
+          <Select ref={ref} labelText={label} error={error} {...rest}>
+            <option value="" disabled>
+              Seleccione un fierro
+            </option>
+            {data?.data.map((iron) => (
+              <option key={iron.id_iron} value={iron.id_iron}>
+                {iron.name}
+              </option>
+            ))}
+          </Select>
+        )}
+      </>
     );
   }
 );

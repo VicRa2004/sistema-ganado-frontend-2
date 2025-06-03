@@ -13,7 +13,7 @@ export class CattleService {
   }
 
   async getAll(
-    page: number = 1,
+    page: number = 1, 
     query?: {
       gender?: string;
       status?: number;
@@ -100,7 +100,7 @@ export class CattleService {
       formData.append("image", image);
     }
 
-    await api.put(`/cattle/${id}`, formData, {
+    return await api.put(`/cattle/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${this.token}`,
         "Content-Type": "multipart/form-data",

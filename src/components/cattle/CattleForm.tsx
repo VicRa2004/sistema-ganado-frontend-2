@@ -1,29 +1,17 @@
 import { CattleType } from "../../types";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/Input";
 import { Button } from "@heroui/react";
 import { TextArea } from "../ui/TextArea";
 import { CattleSelect } from "./select/CattleSelect";
-import {
-  CattleFormInputs,
-  cattleSchema,
-} from "../../lib/schemas/cattle.schema";
+import { CattleFormInputs } from "../../lib/schemas/cattle.schema";
 import { IronSelect } from "./select/IronSelect";
 import { Select } from "../ui/Select";
 import { RaceSelect } from "./select/RaceSelect";
 import { GroundSelect } from "./select/GroundSelect";
-
 import { Switch } from "@heroui/react";
 import { CustomInput } from "../ui/CustomInput";
-import { useCattle } from "../../hooks/useCattle";
 import { useState } from "react";
-
-/**
- * Falta:
- * Poder subir la imagen
- * Redirecionar el usuario
- */
+import { useCattleForm } from "./use-cattle-form";
 
 interface CattleFormProps {
   cattle?: CattleType | null;
@@ -36,26 +24,15 @@ export const CattleForm = ({
   cattle,
   handleClose,
 }: CattleFormProps) => {
-  console.log(cattle);
-
   const {
-    register,
+    createMutate,
+    createPending,
+    errors,
     handleSubmit,
-    formState: { errors },
-  } = useForm<CattleFormInputs>({
-    resolver: zodResolver(cattleSchema),
-    defaultValues: {
-      ...cattle,
-      image: [],
-      birthdate: cattle?.birthdate.split("T")[0],
-      status: !(cattle?.status == 1), // Para que sea false si es 1 y true si es 0
-    },
-  });
-
-  const { useCreateCattle, useUpdateCattle } = useCattle();
-  const { isPending, mutateAsync } = useCreateCattle();
-  const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } =
-    useUpdateCattle();
+    register,
+    updateMutate,
+    updatePending,
+  } = useCattleForm({ cattle });
 
   const [isSelected, setIsSelected] = useState(false);
 
@@ -71,8 +48,10 @@ export const CattleForm = ({
       status,
     };
 
+    console.log(newData)
+
     if (action == "create") {
-      mutateAsync({
+      createMutate({
         data: newData,
         image: data.image[0],
       }).finally(() => {
@@ -82,13 +61,21 @@ export const CattleForm = ({
 
     if (action == "update") {
       if (cattle) {
-        mutateAsyncUpdate({
+        console.log({
           id: cattle.id_cattle,
           cattle: newData,
           image: data.image[0],
-        }).finally(() => {
-          handleClose();
         });
+
+        updateMutate({
+          id: cattle.id_cattle,
+          cattle: newData,
+          image: data.image[0],
+        })
+          .catch((e) => console.log(e))
+          .finally(() => {
+            handleClose();
+          });
       }
     }
   };
@@ -217,7 +204,7 @@ export const CattleForm = ({
           color="primary"
           variant="shadow"
           type="submit"
-          isLoading={isPending || isPendingUpdate}
+          isLoading={createPending || updatePending}
         >
           {action === "create" ? "Crear" : "Actualizar"}
         </Button>

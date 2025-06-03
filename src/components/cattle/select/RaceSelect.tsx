@@ -10,20 +10,26 @@ interface CattleSelectProps {
 export const RaceSelect = forwardRef<HTMLSelectElement, CattleSelectProps>(
   ({ error, label, ...rest }, ref) => {
     const { useGetAllRaces } = useRace();
-    const { data } = useGetAllRaces();
+    const { data, isPending } = useGetAllRaces();
 
     return (
-      <Select ref={ref} labelText={label} error={error} {...rest}>
-        <option value="" disabled>
-          Seleccione una opción
-        </option>
-        <option value="-1">Sin Raza</option>
-        {data?.data.map((race) => (
-          <option key={race.id_race} value={race.id_race}>
-            {race.name}
-          </option>
-        ))}
-      </Select>
+      <>
+        {isPending ? (
+          <h1>Cargando</h1>
+        ) : (
+          <Select ref={ref} labelText={label} error={error} {...rest}>
+            <option value="" disabled>
+              Seleccione una opción
+            </option>
+            <option value="-1">Sin Raza</option>
+            {data?.data.map((race) => (
+              <option key={race.id_race} value={race.id_race}>
+                {race.name}
+              </option>
+            ))}
+          </Select>
+        )}
+      </>
     );
   }
 );

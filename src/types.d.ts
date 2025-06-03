@@ -138,7 +138,7 @@ export interface CattleType {
 
 export type CattleCreate = Omit<
   CattleType,
-  "id_cattle" | "status" | "image" | "id_user"
+  "id_cattle" | "status" | "image" | "id_user" | "iron" | "race" | "ground"
 >;
 
 export interface ResponseCattleAllType {

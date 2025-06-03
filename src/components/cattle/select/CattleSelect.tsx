@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { useCattle } from "../../../hooks/useCattle";
-import { Select } from "../../ui/Select"; // Importa el componente Select corregido
+import { Select } from "../../ui/Select";
 
 interface CattleSelectProps {
   label: string;
@@ -11,19 +11,23 @@ interface CattleSelectProps {
 export const CattleSelect = forwardRef<HTMLSelectElement, CattleSelectProps>(
   ({ error, label, gender, ...rest }, ref) => {
     const { useGetAllCattles } = useCattle();
-    const { data } = useGetAllCattles(1, { gender });
-
-    console.log(data, gender);
-
+    const { data, isPending } = useGetAllCattles(1, { gender });
+    
     return (
-      <Select ref={ref} labelText={label} error={error} {...rest}>
-        <option value="-1">Ninguno</option>
-        {data?.data.map((cattle) => (
-          <option key={cattle.id_cattle} value={cattle.id_cattle}>
-            {cattle.description}
-          </option>
-        ))}
-      </Select>
+      <>
+        {isPending ? (
+          <h1>Cargando</h1>
+        ) : (
+          <Select ref={ref} labelText={label} error={error} {...rest}>
+            <option value="-1">Ninguno</option>
+            {data?.data.map((cattle) => (
+              <option key={cattle.id_cattle} value={cattle.id_cattle}>
+                {cattle.lotNumber} - {cattle.description}
+              </option>
+            ))}
+          </Select>
+        )}
+      </>
     );
   }
 );
