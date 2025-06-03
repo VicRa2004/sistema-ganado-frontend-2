@@ -131,14 +131,24 @@ export interface CattleType {
   id_race: number;
   id_user: number;
   id_ground: number;
-  iron: IronType,
-  race: RaceType,
-  ground: GroundType
+  iron: IronType;
+  race: RaceType;
+  ground: GroundType;
+  Father: CattleType;
+  Mother: CattleType;
 }
 
 export type CattleCreate = Omit<
   CattleType,
-  "id_cattle" | "status" | "image" | "id_user" | "iron" | "race" | "ground"
+  | "id_cattle"
+  | "status"
+  | "image"
+  | "id_user"
+  | "iron"
+  | "race"
+  | "ground"
+  | "Father"
+  | "Mother"
 >;
 
 export interface ResponseCattleAllType {

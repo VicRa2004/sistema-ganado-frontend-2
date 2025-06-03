@@ -17,49 +17,55 @@ export const GroundCard = ({
   const navigate = useNavigate();
 
   if (!ground.image) {
-    // Se pone una imagen por defecto
     ground.image = "img/default-image-2.png";
   }
 
   return (
     <CardRegistro
-      title={ground.name}
+      title={`Terreno - ${ground.name}`}
       image={ground.image}
       data={ground}
       handleDelete={handleDelete}
       handleUpdate={handleUpdate}
-      ExtraButton={<Button
-            onPress={() => navigate(`/app/grounds/${ground.id_ground}`)}
-            variant="bordered"
-            color="primary"
-          >
-            Ver detalles
-          </Button>}
+      ExtraButton={
+        <Button
+          onPress={() => navigate(`/app/grounds/${ground.id_ground}`)}
+          color="primary"
+          radius="lg"
+          variant="bordered"
+        >
+          Ver detalles
+        </Button>
+      }
     >
-      <div className="grid gap-3 text-gray-700 dark:text-gray-300 mt-3">
+      <div className="grid gap-4 mt-4 text-sm text-gray-700 dark:text-gray-300">
         <div>
-          <h3 className="text-lg font-semibold">Notas del Terreno</h3>
-          <p className="text-sm">
+          <h3 className="text-base font-bold text-emerald-600 dark:text-emerald-400 mb-1">
+            Notas
+          </h3>
+          <p className="text-sm leading-relaxed">
             {ground.notes || "No hay notas para este terreno"}
           </p>
         </div>
 
-        <div>
-          <h3 className="text-lg font-semibold">Medidas</h3>
-          <ul className="text-sm">
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
+          <h3 className="text-base font-bold text-emerald-600 dark:text-emerald-400 mb-1">
+            Dimensiones
+          </h3>
+          <ul className="space-y-1">
             <li>
-              <span className="font-semibold">Alto: </span>
-              {ground.length}
+              <span className="font-medium">Alto:</span> {ground.length}
             </li>
             <li>
-              <span className="font-semibold">Ancho: </span>
-              {ground.width}
+              <span className="font-medium">Ancho:</span> {ground.width}
             </li>
           </ul>
         </div>
 
-        <div>
-          <h3 className="text-lg font-semibold">Dirección</h3>
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
+          <h3 className="text-base font-bold text-emerald-600 dark:text-emerald-400 mb-1">
+            Dirección
+          </h3>
           <p className="text-sm">
             {ground.address || "No hay dirección para este terreno"}
           </p>

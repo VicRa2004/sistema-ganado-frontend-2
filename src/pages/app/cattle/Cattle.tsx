@@ -10,132 +10,279 @@ const Cattle = () => {
   const newId = id ? parseInt(id) : null;
 
   if (!newId || isNaN(newId)) {
-    return <div className="p-6 text-center text-red-500 text-lg font-medium">ID no válido</div>;
+    return (
+      <div className="p-6 text-center text-red-500 text-lg font-medium">
+        ID no válido
+      </div>
+    );
   }
 
   const { data: cattle, isPending } = useGetCattle(newId);
 
   if (isPending) {
-    return <div className="p-6 text-center text-green-600 text-lg font-medium">Cargando...</div>;
+    return (
+      <div className="p-6 flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+      </div>
+    );
   }
 
   if (!cattle) {
-    return <div className="p-6 text-center text-gray-500 text-lg font-medium">No se encontró el ganado.</div>;
+    return (
+      <div className="p-6 text-center text-gray-500 text-lg font-medium">
+        No se encontró el ganado.
+      </div>
+    );
   }
 
-  const URL = `/app/cattles/${cattle.father}`
-
-  console.log(URL);
-
   return (
-    <div className="max-w-5xl mx-auto mt-10 p-6 rounded-3xl shadow-lg bg-white dark:bg-neutral-900 transition-all duration-300">
-      {/* Encabezado */}
-      <div className="flex flex-col md:flex-row gap-6">
-        <img
-          src={cattle.image || DEFAULT_IMAGE}
-          alt="Imagen del ganado"
-          className="w-full md:w-1/2 h-80 object-cover rounded-2xl shadow-md border border-green-600"
-        />
+    <div className="max-w-6xl mx-auto mt-6 p-6 rounded-3xl bg-white dark:bg-neutral-900 shadow-xl transition-all duration-300">
+      {/* Encabezado con imagen y datos básicos */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Imagen principal */}
+        <div className="w-full lg:w-2/5">
+          <img
+            src={cattle.image || DEFAULT_IMAGE}
+            alt="Imagen del ganado"
+            className="w-full h-96 object-cover rounded-2xl shadow-lg border-4 border-green-500/20 hover:border-green-500/40 transition-all duration-300"
+          />
+        </div>
 
-        <div className="flex-1 space-y-3">
-          <h2 className="text-3xl font-bold text-green-700 dark:text-green-400">
-            #{cattle.lotNumber}
-          </h2>
-
-          <div className="flex gap-2 flex-wrap">
-            <Badge color={cattle.status === 1 ? "green" : "red"}>
-              {cattle.status === 1 ? "Activo" : "Inactivo"}
-            </Badge>
-            <Badge color={cattle.gender === "female" ? "pink" : "blue"}>
-              {cattle.gender === "female" ? "Hembra" : "Macho"}
-            </Badge>
+        {/* Información principal */}
+        <div className="flex-1 space-y-6">
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+                #{cattle.lotNumber}
+              </h1>
+              <div className="flex gap-3 mt-2">
+                <Badge color={cattle.status === 1 ? "green" : "red"}>
+                  {cattle.status === 1 ? "Activo" : "Inactivo"}
+                </Badge>
+                <Badge color={cattle.gender === "female" ? "pink" : "blue"}>
+                  {cattle.gender === "female" ? "Hembra" : "Macho"}
+                </Badge>
+              </div>
+            </div>
           </div>
 
-          <Detail label="Descripción" value={cattle.description} />
-          <Detail label="Registro" value={cattle.registrationNumber} />
-          <Detail label="Color" value={cattle.color} />
-          <Detail label="Nacimiento" value={new Date(cattle.birthdate).toLocaleDateString()} />
-          {cattle.observations && <Detail label="Observaciones" value={cattle.observations} />}
-          {cattle.reason_for_withdrawal && (
-            <Detail label="Motivo de baja" value={cattle.reason_for_withdrawal} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <DetailCard label="Registro" value={cattle.registrationNumber} icon="📋" />
+            <DetailCard label="Color" value={cattle.color} icon="🎨" />
+            <DetailCard 
+              label="Nacimiento" 
+              value={new Date(cattle.birthdate).toLocaleDateString()} 
+              icon="📅" 
+            />
+            <DetailCard label="Descripción" value={cattle.description} icon="📝" />
+          </div>
+
+          {/* Sección de padres */}
+          <div className="mt-6">
+            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
+              Información de Padres
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {cattle.Father ? (
+                <ParentCard 
+                  parent={cattle.Father} 
+                  relation="Padre" 
+                  gender="male" 
+                />
+              ) : (
+                <EmptyParentCard relation="Padre" />
+              )}
+              
+              {cattle.Mother ? (
+                <ParentCard 
+                  parent={cattle.Mother} 
+                  relation="Madre" 
+                  gender="female" 
+                />
+              ) : (
+                <EmptyParentCard relation="Madre" />
+              )}
+            </div>
+          </div>
+
+          {/* Observaciones y motivo de baja */}
+          {(cattle.observations || cattle.reason_for_withdrawal) && (
+            <div className="mt-6 space-y-3">
+              {cattle.observations && (
+                <DetailCard 
+                  label="Observaciones" 
+                  value={cattle.observations} 
+                  icon="🔍" 
+                  fullWidth 
+                />
+              )}
+              {cattle.reason_for_withdrawal && (
+                <DetailCard 
+                  label="Motivo de baja" 
+                  value={cattle.reason_for_withdrawal} 
+                  icon="⚠️" 
+                  fullWidth 
+                />
+              )}
+            </div>
           )}
-          {
-            cattle.father && (
-              <Button to={URL} as={Link} color="primary" variant="shadow">Ver padre {cattle.father}</Button>
-            )
-          }
         </div>
       </div>
 
-      {/* Datos relacionados */}
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Hierro */}
-        <Card title="Fierro">
-          <img
-            src={cattle.iron.image || DEFAULT_IMAGE}
-            alt="Hierro"
-            className="h-32 w-full object-contain mb-2 rounded border border-gray-300 bg-white dark:bg-neutral-700"
-          />
-          <p className="text-center font-medium text-sm text-gray-800 dark:text-gray-300">
-            {cattle.iron.name}
-          </p>
-        </Card>
+      {/* Sección de datos relacionados */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-neutral-700">
+          Datos Relacionados
+        </h2>
 
-        {/* Raza */}
-        <Card title="Raza">
-          <img
-            src={cattle.race.image || DEFAULT_IMAGE}
-            alt="Raza"
-            className="h-32 w-full object-cover mb-2 rounded border border-gray-300 bg-white dark:bg-neutral-700"
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <RelatedCard 
+            title="Fierro" 
+            image={cattle.iron.image} 
+            name={cattle.iron.name} 
+            description={null}
           />
-          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{cattle.race.name}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">{cattle.race.description}</p>
-        </Card>
-
-        {/* Terreno */}
-        <Card title="Terreno">
-          <img
-            src={cattle.ground.image || DEFAULT_IMAGE}
-            alt="Terreno"
-            className="h-32 w-full object-cover mb-2 rounded border border-gray-300 bg-white dark:bg-neutral-700"
+          
+          <RelatedCard 
+            title="Raza" 
+            image={cattle.race.image} 
+            name={cattle.race.name} 
+            description={cattle.race.description}
           />
-          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-            {cattle.ground.name}
-          </p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">{cattle.ground.address}</p>
-          <Link
-            to={`/app/grounds/${cattle.id_ground}`}
-            className="mt-3 block text-center bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition-all text-sm font-medium"
-          >
-            Ver terreno
-          </Link>
-        </Card>
+          
+          <RelatedCard 
+            title="Terreno" 
+            image={cattle.ground.image} 
+            name={cattle.ground.name} 
+            description={cattle.ground.address}
+            link={`/app/grounds/${cattle.id_ground}`}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
-const Detail = ({ label, value }: { label: string; value: string }) => (
-  <p className="text-sm text-gray-700 dark:text-gray-300">
-    <span className="font-semibold">{label}:</span> {value || "No disponible"}
-  </p>
-);
-
-const Card = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div className="bg-gray-50 dark:bg-neutral-800 p-5 rounded-2xl shadow-md border border-gray-200 dark:border-neutral-700 transition-all">
-    <h3 className="text-md font-bold mb-3 text-green-700 dark:text-green-400">{title}</h3>
-    {children}
+// Componente para mostrar información detallada en tarjetas
+const DetailCard = ({ label, value, icon, fullWidth = false }: { 
+  label: string; 
+  value: string; 
+  icon?: string;
+  fullWidth?: boolean;
+}) => (
+  <div className={`bg-gray-50 dark:bg-neutral-800 p-4 rounded-xl shadow-sm ${fullWidth ? 'col-span-2' : ''}`}>
+    <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 mb-1">
+      {icon && <span>{icon}</span>}
+      <span className="font-medium text-sm">{label}</span>
+    </div>
+    <p className="text-gray-800 dark:text-gray-200 font-semibold">
+      {value || "No disponible"}
+    </p>
   </div>
 );
 
-const Badge = ({ color, children }: { color: string; children: React.ReactNode }) => {
-  const base =
-    "px-3 py-1 text-xs rounded-full font-semibold shadow-sm border inline-block";
+// Componente para mostrar información de los padres
+const ParentCard = ({ parent, relation, gender }: { 
+  parent: any; 
+  relation: string; 
+  gender: string;
+}) => (
+  <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-800 dark:to-neutral-700 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-neutral-700">
+    <div className="flex items-center gap-3">
+      <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-gray-300 dark:border-neutral-600">
+        <img 
+          src={parent.image || DEFAULT_IMAGE} 
+          alt={relation}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div>
+        <h4 className="font-bold text-gray-800 dark:text-white">
+          {relation}: #{parent.lotNumber}
+        </h4>
+        <div className="flex gap-2 mt-1">
+          <Badge color={gender === "female" ? "pink" : "blue"}>
+            {gender === "female" ? "Hembra" : "Macho"}
+          </Badge>
+          <Badge color="green">
+            {parent.registrationNumber}
+          </Badge>
+        </div>
+      </div>
+    </div>
+    <Button 
+      to={`/app/cattles/${parent.id}`} 
+      as={Link} 
+      color="primary" 
+      variant="shadow"
+      className="mt-3 w-full"
+    >
+      Ver detalles
+    </Button>
+  </div>
+);
+
+// Componente para cuando no hay información del padre/madre
+const EmptyParentCard = ({ relation }: { relation: string }) => (
+  <div className="bg-gray-50/50 dark:bg-neutral-800/50 p-4 rounded-xl border border-dashed border-gray-300 dark:border-neutral-700 text-center">
+    <p className="text-gray-500 dark:text-gray-400">
+      No hay información del {relation.toLowerCase()}
+    </p>
+  </div>
+);
+
+// Componente para datos relacionados (fierro, raza, terreno)
+const RelatedCard = ({ title, image, name, description, link }: { 
+  title: string; 
+  image: string;
+  name: string;
+  description: string | null;
+  link?: string;
+}) => (
+  <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-neutral-700 hover:shadow-lg transition-all duration-300">
+    <div className="h-48 bg-gray-100 dark:bg-neutral-700 flex items-center justify-center p-4">
+      <img
+        src={image || DEFAULT_IMAGE}
+        alt={title}
+        className="h-full w-full object-contain"
+      />
+    </div>
+    <div className="p-5">
+      <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
+        {title}: {name}
+      </h3>
+      {description && (
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+          {description}
+        </p>
+      )}
+      {link && (
+        <Link
+          to={link}
+          className="block text-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
+        >
+          Ver {title.toLowerCase()}
+        </Link>
+      )}
+    </div>
+  </div>
+);
+
+// Componente de badge
+const Badge = ({
+  color,
+  children,
+}: {
+  color: string;
+  children: React.ReactNode;
+}) => {
+  const base = "px-2.5 py-0.5 text-xs rounded-full font-semibold inline-flex items-center";
   const colorMap: Record<string, string> = {
-    green: "bg-green-100 text-green-800 border-green-300 dark:bg-green-900 dark:text-green-200",
-    red: "bg-red-100 text-red-800 border-red-300 dark:bg-red-900 dark:text-red-200",
-    blue: "bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-900 dark:text-blue-200",
-    pink: "bg-pink-100 text-pink-800 border-pink-300 dark:bg-pink-900 dark:text-pink-200",
+    green: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+    red: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
+    blue: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+    pink: "bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200",
   };
   return <span className={`${base} ${colorMap[color] || ""}`}>{children}</span>;
 };
