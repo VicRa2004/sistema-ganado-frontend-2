@@ -24,6 +24,13 @@ export const useLogin = () => {
 
          toast.success("Se inicio sesión correctamente");
 
+         console.log(resp);
+
+         if (resp.rol == "admin") {
+            navigate("/admin");
+            return;
+         }
+
          navigate("/app");
       } catch (error) {
          handleError(error, {

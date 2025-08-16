@@ -1,21 +1,25 @@
 import { Button, Pagination } from "@heroui/react";
 import { SkeletonGrid } from "../../components/ui/SkeletonGrid";
-import { useState } from "react";
 import { useCattle } from "../../hooks/useCattle";
 import { CattleCard } from "../../components/cattle/CattleCard";
 import { CattleType } from "../../types";
 import { useModal } from "../../hooks/useModal";
 import { CattleCreateModal } from "../../components/cattle/CattleCreateModal";
 import { CattleUpdateModal } from "../../components/cattle/CattleUpdateModal";
+import {CattleFilter, CattleFilters} from "../../components/cattle/CattleFilter"
+import {useState} from "react"
 
 export const Cattles = () => {
   const { closeModal, modalType, openModal } = useModal();
   const [currentPage, setCurrentPage] = useState(0);
   const { useGetAllCattles } = useCattle();
+  const [filters, setFilters] = useState<CattleFilters>({
+    status: 1,
+  });
 
   //const navigate = useNavigate();
 
-  const { isPending, data } = useGetAllCattles(currentPage);
+  const { isPending, data } = useGetAllCattles(currentPage, filters);
 
   const [cattle, setCattle] = useState<CattleType | null>(null);
 
@@ -25,6 +29,10 @@ export const Cattles = () => {
   ) => {
     setCattle(cattle);
     openModal(type);
+  };
+
+  const handleFilterChange = (filters: CattleFilters) => {
+    setFilters(filters);
   };
 
   return (
@@ -55,6 +63,8 @@ export const Cattles = () => {
         onClose={closeModal}
         cattle={cattle}
       />
+
+      <CattleFilter onFilterChange={handleFilterChange} filters={filters} />
 
       <div className="w-full flex flex-col items-center gap-4">
         {isPending ? (

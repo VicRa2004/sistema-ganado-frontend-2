@@ -41,7 +41,7 @@ export const useCattle = () => {
   ) => {
     const currentPage = page || 1;
 
-    const { data, isError, isPending, error, } = useQuery({
+    const { data, isError, isPending, error, isFetching} = useQuery({
       queryKey: ["cattles", page, query],
       queryFn: async () => {
         const res = await cattleService.getAll(currentPage, query);
@@ -53,7 +53,7 @@ export const useCattle = () => {
       handleError(error);
     }
 
-    return { data, isPending };
+    return { data, isPending, isFetching };
   };
 
   const useGetAllCattlesGround = ({

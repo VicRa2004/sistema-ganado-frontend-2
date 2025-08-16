@@ -22,7 +22,7 @@ export const CattleSelect = forwardRef<HTMLSelectElement, CattleSelectProps>(
             <option value="-1">Ninguno</option>
             {data?.data.map((cattle) => (
               <option key={cattle.id_cattle} value={cattle.id_cattle}>
-                {cattle.lotNumber} - {cattle.description}
+                {cattle.lotNumber}-{cattle.description}
               </option>
             ))}
           </Select>

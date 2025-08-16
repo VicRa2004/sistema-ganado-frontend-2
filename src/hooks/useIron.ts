@@ -19,9 +19,14 @@ export const useIron = () => {
     const { data, isPending } = useQuery({
       queryKey: ["irons", currentPage],
       queryFn: async () => {
-        const res = await ironService.getAll(page);
+        try {
+          const res = await ironService.getAll(page);
         return res;
+        } catch (error) {
+          handleError(error);
+        }
       },
+
     });
 
     return { data, isPending };

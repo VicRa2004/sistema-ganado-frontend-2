@@ -7,6 +7,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { ProfileOptions } from "./ProfileOptions";
 import { Button } from "@heroui/react";
 import { AppOptions } from "./AppOptions";
+import { Options } from "./Options";
 
 const links = [
    {
@@ -43,6 +44,11 @@ export function Navbar() {
                {/* Desktop Menu */}
                <div className="hidden md:flex space-x-6">
                   {links.map((link, index) => {
+
+                     if (link.name === "App" && !isLogged) {
+                        return null;
+                     }
+
                      return (
                         <NavLink key={index} to={link.route}>
                            {link.name}
@@ -58,9 +64,12 @@ export function Navbar() {
                         <ProfileOptions />
                      </>
                   ) : (
-                     <Button color="primary" variant="faded">
-                        <Link to="/login">Login</Link>
-                     </Button>
+                     <>
+                        <Options />
+                        <Button color="primary" variant="faded">
+                           <Link to="/login">Login</Link>
+                        </Button>
+                     </>
                   )}
 
                   {/* Mobile Menu Button */}

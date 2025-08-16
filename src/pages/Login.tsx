@@ -6,12 +6,12 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Link,
 } from "@heroui/react";
 import { FormValues, formSchema } from "../lib/schemas/login.schema";
 import { Input } from "../components/ui/Input";
 import { useLogin } from "../hooks/auth/useLogin";
 import { ImgBg } from "../components/ImgBg";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
   const {
@@ -97,7 +97,7 @@ export const Login = () => {
           <p className="text-gray-600 dark:text-gray-400">
             ¿No tienes cuenta?{" "}
             <Link
-              href="/register"
+              to="/register"
               className="font-semibold text-primary hover:underline"
             >
               Regístrate aquí

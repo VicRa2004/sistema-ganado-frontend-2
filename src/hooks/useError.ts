@@ -11,6 +11,8 @@ export const useError = () => {
    ) => {
       const res = handle(error);
 
+      console.log(res);
+
       toast.error(res.message, {
          className: "text-lg",
          position: "bottom-center",

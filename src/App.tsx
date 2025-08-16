@@ -19,6 +19,8 @@ import { RouteProtectec } from "./components/RouteProtectec";
 import { AppLayout } from "./pages/layouts/AppLayout";
 import { GroundCattle } from "./pages/app/ground/GroundCattle";
 import Cattle from "./pages/app/cattle/Cattle";
+import { Admin } from "./pages/admin/Admin";
+import { AdminLayout } from "./pages/layouts/AdminLayout";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,11 @@ export const App = () => {
             <Route path="/register" element={<Register />}></Route>
             <Route path="/send-email/:email" element={<SendEmail />}></Route>
             <Route path="/verify-email/:token" element={<ConfirmEmail />} />
+            <Route path="/admin" element={<RouteProtectec />}>
+              <Route element={<AdminLayout />}>
+                <Route index element={<Admin />}></Route>
+              </Route>
+            </Route>
             <Route path="/app" element={<RouteProtectec />}>
               <Route element={<AppLayout />}>
                 <Route index element={<AppMain />}></Route>

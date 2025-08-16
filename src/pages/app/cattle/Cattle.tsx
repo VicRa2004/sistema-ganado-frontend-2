@@ -187,8 +187,10 @@ const ParentCard = ({ parent, relation, gender }: {
   parent: any; 
   relation: string; 
   gender: string;
-}) => (
-  <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-800 dark:to-neutral-700 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-neutral-700">
+}) => {
+   console.log(parent);
+  return (
+    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-800 dark:to-neutral-700 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-neutral-700">
     <div className="flex items-center gap-3">
       <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-gray-300 dark:border-neutral-600">
         <img 
@@ -212,7 +214,7 @@ const ParentCard = ({ parent, relation, gender }: {
       </div>
     </div>
     <Button 
-      to={`/app/cattles/${parent.id}`} 
+      to={`/app/cattles/${parent.id_cattle}`} 
       as={Link} 
       color="primary" 
       variant="shadow"
@@ -221,7 +223,8 @@ const ParentCard = ({ parent, relation, gender }: {
       Ver detalles
     </Button>
   </div>
-);
+  )
+}
 
 // Componente para cuando no hay información del padre/madre
 const EmptyParentCard = ({ relation }: { relation: string }) => (

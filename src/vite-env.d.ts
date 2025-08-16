@@ -11,6 +11,7 @@ export interface UserType {
    username: string;
    email: string;
    token: string;
+   rol: "admin" | "user";
    created_at: string;
    updated_at: string;
 }

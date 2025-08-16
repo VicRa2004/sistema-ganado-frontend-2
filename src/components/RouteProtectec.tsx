@@ -6,7 +6,5 @@ export const RouteProtectec = () => {
 
   if (!isLogged) return <Navigate to="/login" />;
 
-  //console.log("ruta protegida");
-
   return <Outlet />;
 };

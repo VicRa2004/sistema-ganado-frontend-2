@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { UserType } from "@/vite-env";
+import { UserType } from "../vite-env";
 
 interface AuthStore {
    user: UserType | null;
