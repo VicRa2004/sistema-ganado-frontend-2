@@ -13,7 +13,7 @@ export class CattleService {
   }
 
   async getAll(
-    page: number = 1, 
+    page: number = 1,
     query?: {
       gender?: string;
       status?: number;
