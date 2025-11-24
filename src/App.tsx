@@ -21,6 +21,7 @@ import { GroundCattle } from "./pages/app/ground/GroundCattle";
 import Cattle from "./pages/app/cattle/Cattle";
 import { Admin } from "./pages/admin/Admin";
 import { AdminLayout } from "./pages/layouts/AdminLayout";
+import { Races } from "./pages/admin/Races";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ export const App = () => {
             <Route path="/admin" element={<RouteProtectec />}>
               <Route element={<AdminLayout />}>
                 <Route index element={<Admin />}></Route>
+                <Route path="races" element={<Races />}></Route>
               </Route>
             </Route>
             <Route path="/app" element={<RouteProtectec />}>

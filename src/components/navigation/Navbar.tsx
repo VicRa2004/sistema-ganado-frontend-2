@@ -10,101 +10,114 @@ import { AppOptions } from "./AppOptions";
 import { Options } from "./Options";
 
 const links = [
-   {
-      name: "App",
-      route: "/app",
-   },
-   {
-      name: "Sobre Nosotros",
-      route: "/about",
-   },
-   {
-      name: "Ayuda",
-      route: "/help",
-   },
-   {
-      name: "Noticias",
-      route: "/news",
-   },
+  {
+    name: "App",
+    route: "/app",
+  },
+  {
+    name: "Sobre Nosotros",
+    route: "/about",
+  },
+  {
+    name: "Ayuda",
+    route: "/help",
+  },
+  {
+    name: "Noticias",
+    route: "/news",
+  },
 ];
 
 export function Navbar() {
-   const [menuOpen, setMenuOpen] = useState(false);
-   const { isLogged } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { isLogged, user } = useAuth();
 
-   return (
-      <nav className="bg-primary shadow-md sticky top-0 z-50">
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-               {/* Logo */}
-               <div className="text-2xl font-extrabold text-white tracking-wide">
-                  <Link to="/">G.P</Link>
-               </div>
+  return (
+    <nav className="bg-primary shadow-md sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="text-2xl font-extrabold text-white tracking-wide">
+            <Link to="/">G.P</Link>
+          </div>
 
-               {/* Desktop Menu */}
-               <div className="hidden md:flex space-x-6">
-                  {links.map((link, index) => {
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-6">
+            {links.map((link, index) => {
+              if (link.name === "App") {
+                if (!user) return null;
+                if (user.rol == "admin") {
+                  return (
+                    <NavLink key={index} to="/admin">
+                      Admin
+                    </NavLink>
+                  );
+                }
+                return (
+                  <NavLink key={index} to={link.route}>
+                    {link.name}
+                  </NavLink>
+                );
+              }
 
-                     if (link.name === "App" && !isLogged) {
-                        return null;
-                     }
-
-                     return (
-                        <NavLink key={index} to={link.route}>
-                           {link.name}
-                        </NavLink>
-                     );
-                  })}
-               </div>
-
-               <div className="flex gap-2">
-                  {isLogged ? (
-                     <>
-                        <AppOptions />
-                        <ProfileOptions />
-                     </>
-                  ) : (
-                     <>
-                        <Options />
-                        <Button color="primary" variant="faded">
-                           <Link to="/login">Login</Link>
-                        </Button>
-                     </>
-                  )}
-
-                  {/* Mobile Menu Button */}
-                  <button
-                     onClick={() => setMenuOpen(!menuOpen)}
-                     className="md:hidden text-primary-50 dark:text-gray-200 p-2 rounded-md hover:bg-primary-800 transition-colors"
-                  >
-                     {menuOpen ? <X size={24} /> : <Menu size={24} />}
-                  </button>
-               </div>
-            </div>
-         </div>
-
-         {/* Mobile Menu */}
-         <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{
-               height: menuOpen ? "auto" : 0,
-               opacity: menuOpen ? 1 : 0,
-            }}
-            className="md:hidden overflow-hidden bg-primary shadow-md"
-         >
-            {links.map((link) => {
-               return (
-                  <Link
-                     key={link.route}
-                     to={link.route}
-                     className="block px-4 py-3 text-lg font-medium text-white hover:text-gray-300 hover:bg-primary-900 transition-colors"
-                     onClick={() => setMenuOpen(false)}
-                  >
-                     {link.name}
-                  </Link>
-               );
+              return (
+                <NavLink key={index} to={link.route}>
+                  {link.name}
+                </NavLink>
+              );
             })}
-         </motion.div>
-      </nav>
-   );
+          </div>
+
+          <div className="flex gap-2">
+            {isLogged ? (
+              <>
+                <AppOptions />
+                <ProfileOptions />
+              </>
+            ) : (
+              <>
+                <Options />
+                <Link to="/login">
+                  <Button color="primary" variant="faded">
+                    Login
+                  </Button>
+                </Link>
+              </>
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden text-primary-50 dark:text-gray-200 p-2 rounded-md hover:bg-primary-800 transition-colors"
+            >
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <motion.div
+        initial={{ height: 0, opacity: 0 }}
+        animate={{
+          height: menuOpen ? "auto" : 0,
+          opacity: menuOpen ? 1 : 0,
+        }}
+        className="md:hidden overflow-hidden bg-primary shadow-md"
+      >
+        {links.map((link) => {
+          return (
+            <Link
+              key={link.route}
+              to={link.route}
+              className="block px-4 py-3 text-lg font-medium text-white hover:text-gray-300 hover:bg-primary-900 transition-colors"
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.name}
+            </Link>
+          );
+        })}
+      </motion.div>
+    </nav>
+  );
 }

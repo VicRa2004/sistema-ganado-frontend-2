@@ -44,5 +44,6 @@ export const useAuth = () => {
     isLogged,
     getToken,
     confirmEmailUser,
+    user: useAuthStore((state) => state.user),
   };
 };
