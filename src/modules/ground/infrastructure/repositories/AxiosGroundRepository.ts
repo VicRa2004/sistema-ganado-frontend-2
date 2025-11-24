@@ -1,32 +1,19 @@
 import { Pagination } from "@/core/shared/domain/Pagination";
 import { Ground, GroundCreate, GroundUpdate } from "../../domain/Ground";
 import { GroundFilters, GroundRepository } from "../../domain/GroundRepository";
-import axios, { AxiosError, AxiosInstance } from "axios";
+import { axiosClient } from "@/core/http/axiosClient";
 import { ResAPI } from "@/core/shared/domain/ResAPI";
+import { AxiosError } from "axios";
 
 export class AxiosGroundRepository implements GroundRepository {
-  private http: AxiosInstance;
-
-  constructor(baseURL: string, token?: string | null) {
-    this.http = axios.create({
-      baseURL,
-      withCredentials: true, // si usas cookies
-    });
-
-    this.http.options("", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-
   async find(filters: GroundFilters): Promise<Pagination<Ground>> {
     const {
       data: { data },
-    } = await this.http.get<ResAPI<Pagination<Ground>>>("/ground", {
+    } = await axiosClient.get<ResAPI<Pagination<Ground>>>("/ground", {
       params: filters,
     });
 
+    // Convertir fechas a objetos Date
     data.items = data.items.map((ground) => ({
       ...ground,
       createdAt: new Date(ground.createdAt),
@@ -40,7 +27,7 @@ export class AxiosGroundRepository implements GroundRepository {
     try {
       const {
         data: { data },
-      } = await this.http.get<ResAPI<Ground>>(`/ground/${id}`);
+      } = await axiosClient.get<ResAPI<Ground>>(`/ground/${id}`);
 
       return {
         ...data,
@@ -58,7 +45,7 @@ export class AxiosGroundRepository implements GroundRepository {
   async create(ground: GroundCreate): Promise<Ground> {
     const {
       data: { data },
-    } = await this.http.post<ResAPI<Ground>>("/ground", ground);
+    } = await axiosClient.post<ResAPI<Ground>>("/ground", ground);
 
     return {
       ...data,
@@ -70,7 +57,7 @@ export class AxiosGroundRepository implements GroundRepository {
   async update(ground: GroundUpdate): Promise<Ground> {
     const {
       data: { data },
-    } = await this.http.put<ResAPI<Ground>>(`/ground/${ground.id}`, ground);
+    } = await axiosClient.put<ResAPI<Ground>>(`/ground/${ground.id}`, ground);
 
     return {
       ...data,
@@ -80,6 +67,6 @@ export class AxiosGroundRepository implements GroundRepository {
   }
 
   async delete(id: number): Promise<void> {
-    await this.http.delete(`/ground/${id}`);
+    await axiosClient.delete(`/ground/${id}`);
   }
 }
