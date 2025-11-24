@@ -71,9 +71,9 @@ export const Grounds = () => {
           <SkeletonGrid />
         ) : (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {data?.data &&
-              data?.data.length !== 0 &&
-              data.data.map((ground, index) => (
+            {data?.items &&
+              data?.items.length !== 0 &&
+              data.items.map((ground, index) => (
                 <GroundCard
                   handleUpdate={() => handleModal("update-ground", ground)}
                   handleDelete={() => handleModal("delete-ground", ground)}

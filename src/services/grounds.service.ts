@@ -15,7 +15,9 @@ export class GroundService {
       },
     });
 
-    return resp.data;
+    console.log(resp.data.data);
+
+    return resp.data.data;
   }
 
   async getOneGround(id: number) {

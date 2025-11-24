@@ -7,10 +7,16 @@ import { ResAPI } from "@/core/shared/domain/ResAPI";
 export class AxiosGroundRepository implements GroundRepository {
   private http: AxiosInstance;
 
-  constructor(baseURL: string) {
+  constructor(baseURL: string, token?: string | null) {
     this.http = axios.create({
       baseURL,
       withCredentials: true, // si usas cookies
+    });
+
+    this.http.options("", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
 
