@@ -1,4 +1,9 @@
-import { HeroUIProvider } from "@heroui/react";
+export const App = () => {
+  return <div>App</div>;
+};
+
+/**
+ * import { HeroUIProvider } from "@heroui/react";
 import { Routes, Route, useNavigate, useHref } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Error404 } from "./pages/Error404";
@@ -64,3 +69,5 @@ export const App = () => {
     </QueryClientProvider>
   );
 };
+
+ */
